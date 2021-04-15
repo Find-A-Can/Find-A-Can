@@ -23,10 +23,13 @@
 ### Plans for the week
 
 #### Jimmy Guo
+- Design roadmap for backend interaction 
 
 #### Aroosh Kumar
+- Design roadmap for backend interaction 
 
 #### Ryan Tannenberg
+- Design UI mockups 
 
 #### Joseph Ubelhart
 - Begin reaching out to cities for can locations
