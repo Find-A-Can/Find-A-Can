@@ -21,6 +21,13 @@
 ### Progress and issues
 
 ### Plans for the week
-- Begin reaching out to cities for can locations 
+
+#### Jimmy Guo
+
+#### Aroosh Kumar
+
+#### Ryan Tannenberg
+
+#### Joseph Ubelhart
+- Begin reaching out to cities for can locations
 - Design UI mockups 
-- Design roadmap for backend interaction 
