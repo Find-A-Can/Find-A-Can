@@ -3,11 +3,11 @@ Database: We will use a flat MySQL database, using Amazon DynamoDB to store the 
 The schema will be the following:
 ```
 CREATE TABLE Locations (
-    lat FLOAT,
-    lng FLOAT,
-    isGarbage bit,
-    isCompost bit,
-    isRecycling bit
+    lat DECIMAL(9,6),
+    lng DECIMAL(9,6),
+    isGarbage BIT,
+    isCompost BIT,
+    isRecycling BIT
 );
 ```
 This will allow for each entry in the table to represent a single trash station, and indicate what kinds of trash disposal facilities are available at every location.
