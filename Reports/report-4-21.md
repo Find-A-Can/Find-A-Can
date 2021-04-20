@@ -1,4 +1,4 @@
-# Report 4-14-21
+# Report 4-21-21
 
 ## Team Report
 
@@ -9,8 +9,15 @@
 - Design roadmap for backend interaction 
 
 ### Progress and issues
+- Reached out to multiple cities for location data
+- Updated requirements
+- Made UI mockups
+- Planned backend endpoints
 
 ### Plans for the week
+- Finalize UX
+- Set up docker
+- Start Android development
 
 ## Individual contributions
 
