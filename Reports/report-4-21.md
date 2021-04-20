@@ -16,8 +16,9 @@
 
 ### Plans for the week
 - Finalize UX
-- Set up docker
 - Start Android development
+- Set up docker
+- Start backend development
 
 ## Individual contributions
 
@@ -60,17 +61,17 @@
 ### Plans for the week
 
 #### Jimmy Guo
-- Begin reaching out to cities for can locations
-- Design basic roadmap for back-end interactions
+- Set up docker
+- Start backend development
 
 #### Aroosh Kumar
-- Begin reaching out to cities for can locations
-- Design basic roadmap for back-end interactions
+- Set up docker
+- Start backend development
 
 #### Ryan Tannenberg
-- Begin reaching out to cities for can locations
-- Design UI mockups
+- Finalize UX
+- Start Android development
 
 #### Joseph Ubelhart
-- Begin reaching out to cities for can locations
-- Design UI mockups 
+- Finalize UX
+- Start Android development
