@@ -43,8 +43,9 @@
 ### Progress and issues
 
 #### Jimmy Guo
-- Begin reaching out to cities for can locations
+- Reached out to City of Bellevue for can locations
 - Design basic roadmap for back-end interactions
+- Set up AWS dynamoDB
 
 #### Aroosh Kumar
 - Begin reaching out to cities for can locations
