@@ -51,7 +51,7 @@
 - Design basic roadmap for back-end interactions
 
 #### Ryan Tannenberg
-- Begin reaching out to cities for can locations
+- Reached out to City of San Diego for can locations
 - Design UI mockups
 
 #### Joseph Ubelhart
