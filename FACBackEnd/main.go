@@ -7,19 +7,32 @@ import (
 	"net/http"
 )
 
-type Article struct {
-	Title   string `json:"Title"`
-	Desc    string `json:"desc"`
-	Content string `json:"content"`
+type Geometry struct {
+	FeatureType string     `json:"type"`
+	Coordinates [2]float32 `json:"coordinates"`
 }
 
-var Articles []Article
+type Properties struct {
+	IsTrash     bool `json:"isTrash"`
+	IsRecycling bool `json:"isRecycling"`
+	IsCompost   bool `json:"isCompost"`
+}
+
+type TrashCan struct {
+	FeatureType string     `json:"type"`
+	Geom        Geometry   `json:"geometry"`
+	Prop        Properties `json:"properties"`
+}
+
+var Articles []TrashCan
 
 func main() {
-
-	Articles = []Article{
-		{Title: "Hello", Desc: "Article Description", Content: "Article Content"},
-		{Title: "Hello 2", Desc: "Article Description", Content: "Article Content"},
+	Articles = []TrashCan{
+		{
+			FeatureType: "Feature",
+			Geom:        Geometry{FeatureType: "Point", Coordinates: [2]float32{1.3, 2.4}},
+			Prop:        Properties{IsTrash: true, IsRecycling: true, IsCompost: true},
+		},
 	}
 	handleRequests()
 }
