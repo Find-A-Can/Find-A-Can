@@ -18,7 +18,9 @@
 
 ### Plans for the week
 
-
+- Set up Google maps integration
+- App able to display dummy marker data
+- Write instructions on how to set up the front end dev environment
 
 ## Individual contributions
 
@@ -57,12 +59,10 @@
 ### Plans for the week
 
 #### Jimmy Guo
-- Set up docker
-- Start backend development
+- 
 
 #### Aroosh Kumar
-- Set up docker
-- Start backend development
+-
 
 #### Ryan Tannenberg
 - Set up Google maps integration
