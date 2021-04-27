@@ -45,16 +45,20 @@
 ### Progress and issues
 
 #### Jimmy Guo
-- 
+- Set up API endpoints
+- Set up GO to run in Docker container
+- Able to send out dummy GeoJSON
 
 #### Aroosh Kumar
-- 
+- Set up API endpoints
+- Set up GO to run in Docker container
+- Able to send out dummy GeoJSON
 
 #### Ryan Tannenberg
-- 
+- Finalized UX decisions
 
 #### Joseph Ubelhart
-- 
+- Finalized UX decisions
 
 ### Plans for the week
 
