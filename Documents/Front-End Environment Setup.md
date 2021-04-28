@@ -6,7 +6,7 @@ All instructions are for Windows 10
 Much of this is from the official React Native install page, so it is recommended to look at that if you have any issues  
 [https://reactnative.dev/docs/environment-setup](https://reactnative.dev/docs/environment-setup)
 
-## 1. Installs
+## Installs
 ### Node
 Install node version 12 or later  
 [https://nodejs.org/en/](https://nodejs.org/en/)
