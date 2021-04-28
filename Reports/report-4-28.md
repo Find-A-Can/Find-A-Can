@@ -63,7 +63,8 @@
 ### Plans for the week
 
 #### Jimmy Guo
-- 
+- Set up database on AWS DynamoDB
+- Set up backend environment
 
 #### Aroosh Kumar
 -
