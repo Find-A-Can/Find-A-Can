@@ -67,7 +67,9 @@
 - Set up backend environment
 
 #### Aroosh Kumar
--
+- Write backend dev environment setup instructions
+- Finalize backend dev environment structure
+- Set up gradle build system for backend
 
 #### Ryan Tannenberg
 - Set up Google maps integration
