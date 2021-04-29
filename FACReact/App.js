@@ -8,12 +8,14 @@
 
 import React from 'react';
 import type {Node} from 'react';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  Dimensions,
   useColorScheme,
   View,
 } from 'react-native';
@@ -60,33 +62,31 @@ const App: () => Node = () => {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    
+      <View style={styles.container}>
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            style={styles.map}
+            showsPointsOfInterest={false}
+            initialRegion={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+            showsUserLocation={true}
+            >
+          
+          <Marker
+            coordinate={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+            }}
+            title="Test Can"
+          />
+
+          </MapView>
         </View>
-      </ScrollView>
-    </SafeAreaView>
   );
 };
 
@@ -107,6 +107,32 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
 });
+
+// getInitialState() {
+//   return {
+//     region: {
+//       latitude: 37.78825,
+//       longitude: -122.4324,
+//       latitudeDelta: 0.0922,
+//       longitudeDelta: 0.0421,
+//     },
+//   };
+// }
+
+// onRegionChange(region) {
+//   this.setState({ region });
+// }
+
 
 export default App;

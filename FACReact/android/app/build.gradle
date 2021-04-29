@@ -1,4 +1,10 @@
+plugins {
+    id 'com.google.secrets_gradle_plugin' version '0.5'
+}
+
 apply plugin: "com.android.application"
+
+
 
 import com.android.build.OutputFile
 
