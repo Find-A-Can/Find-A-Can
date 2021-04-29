@@ -67,6 +67,16 @@ Check your virtual devices in Android Studio
 - If you want to make a new device, hit "Create Virtual Device..." 
     - This device must also have the Play Store logo in order for the map to function
 
+### Add API Key
+First, create a project and API Key  
+[https://developers.google.com/maps/documentation/android-api/signup#release-cert](https://developers.google.com/maps/documentation/android-api/signup#release-cert)
+
+
+Create a file `FACReact/android/local.properties`  
+The file's contents should just be  
+`MAPS_API_KEY=YOUR_API_KEY`
+
+
 ## Running the app
 First enter a powershell window in the /FACReact/ directory
 
