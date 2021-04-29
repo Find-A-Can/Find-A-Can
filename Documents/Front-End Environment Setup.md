@@ -62,9 +62,10 @@ To run on a physical device, use this tutorial
 Check your virtual devices in Android Studio  
 - First open android studio to its front page  
 - Hit "Configure", then "AVD Manager"  
-- If there is a virtual device, make sure there is a green play arrow on the Actions column.  
+- If there is a virtual device, make sure there is a green play arrow on the Actions column and a Play Store logo in the Play Store column.  
     - If it says "Download" click the word download to install the device
 - If you want to make a new device, hit "Create Virtual Device..." 
+    - This device must also have the Play Store logo in order for the map to function
 
 ## Running the app
 First enter a powershell window in the /FACReact/ directory
@@ -78,7 +79,7 @@ Next run `npx react-native start`
 This will run a tool called Metro that will build and run the app for you
 
 Open another powershell in /FACReact/  
-Run npx `react-native run-android`  
+Run `npx react-native run-android`  
 This will boot and setup your android emulator  
 
 In the Metro powershell, press `r` to push the app to the emulator
