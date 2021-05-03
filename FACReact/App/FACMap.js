@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { styles } from './App'
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
+import MapView, { Marker } from 'react-native-maps'
 import {
+  PermissionsAndroid,
   View
 } from 'react-native'
 
@@ -14,9 +15,31 @@ export class FACMap extends Component {
     return (
     <View style={styles.container}>
       <MapView
-        provider={PROVIDER_GOOGLE}
+        onMapReady={async () => {
+          try {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+              {
+                title: "Find A Can Location",
+                message:
+                  "Find A Can needs to know your location to help find nearby trash cans",
+                buttonPositive: "Go To Permissions Page"
+              }
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+              console.log("Access to location granted");
+            } else {
+              console.log("Access to location denied");
+            }
+          } catch (err) {
+            console.warn(err);
+          }
+        }}
+        provider={MapView.PROVIDER_GOOGLE}
         style={styles.map}
         showsPointsOfInterest={false}
+        showsCompass={true}
+        showsMyLocationButton={true}
         initialRegion={{
           latitude: 37.78825,
           longitude: -122.4324,
