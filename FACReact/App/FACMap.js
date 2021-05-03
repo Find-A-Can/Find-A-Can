@@ -6,10 +6,38 @@ import {
   View
 } from 'react-native'
 
-export class FACMap extends Component {
+export class FACMap extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      region: {
+        latitude: 47.656882, 
+        latitudeDelta: 0.013500, 
+        longitude: -122.308035, 
+        longitudeDelta: 0.010948
+      },
+    };
+  }
   // const backgroundStyle = {
   //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   // };
+
+  getInitialState() {
+    return {
+      region: {
+        latitude: 47.656882, 
+        latitudeDelta: 0.013500, 
+        longitude: -122.308035, 
+        longitudeDelta: 0.010948
+      },
+    };
+  }
+  
+  onRegionChange(region) {
+    this.setState({ region });
+
+    console.log(this.state.region);
+  }
 
   render () {
     return (
@@ -40,19 +68,15 @@ export class FACMap extends Component {
         showsPointsOfInterest={false}
         showsCompass={true}
         showsMyLocationButton={true}
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421
-        }}
+        initialRegion={this.state.region}
         showsUserLocation={true}
+        onRegionChangeComplete={region => this.onRegionChange(region)}
         >
 
         <Marker
         coordinate={{
-          latitude: 37.78825,
-          longitude: -122.4324
+          latitude: 47.656882, 
+          longitude: -122.308035, 
         }}
         title="Test Can"
         />
@@ -61,18 +85,3 @@ export class FACMap extends Component {
     )
   }
 }
-
-// getInitialState() {
-//   return {
-//     region: {
-//       latitude: 37.78825,
-//       longitude: -122.4324,
-//       latitudeDelta: 0.0922,
-//       longitudeDelta: 0.0421,
-//     },
-//   };
-// }
-
-// onRegionChange(region) {
-//   this.setState({ region });
-// }
