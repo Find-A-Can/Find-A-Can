@@ -6,17 +6,18 @@ import {
   View
 } from 'react-native'
 
-export class FACMap extends React.Component {
-  constructor() {
-    super();
-    this.state = {
+export class FACMap extends Component {
+
+  //constructor() {
+    //super();
+    state = {
       region: {
         latitude: 47.656882, 
         latitudeDelta: 0.013500, 
         longitude: -122.308035, 
         longitudeDelta: 0.010948
-      },
-    };
+      }//,
+    //};
   }
   // const backgroundStyle = {
   //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,

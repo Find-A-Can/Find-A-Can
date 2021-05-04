@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { FACMap } from './FACMap'
+import { FACMap } from './FACMap.android'
 import {
   StyleSheet,
   Dimensions,
@@ -39,14 +39,14 @@ export const styles = StyleSheet.create({
   },
 });
 
-const Colors = {
-  primary: '#1292B4',
-  white: '#FFF',
-  lighter: '#F3F3F3',
-  light: '#DAE1E7',
-  dark: '#444',
-  darker: '#222',
-  black: '#000',
-}
+// const Colors = {
+//   primary: '#1292B4',
+//   white: '#FFF',
+//   lighter: '#F3F3F3',
+//   light: '#DAE1E7',
+//   dark: '#444',
+//   darker: '#222',
+//   black: '#000',
+// }
 
 export default App;
