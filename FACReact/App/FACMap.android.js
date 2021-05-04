@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { styles } from './App'
 import MapView, { Geojson } from 'react-native-maps'
 import {
   PermissionsAndroid,
-  View
+  View,
+  StyleSheet,
+  Dimensions,
 } from 'react-native'
 
 // usable colors here https://github.com/react-native-maps/react-native-maps/issues/887#issuecomment-324530282
@@ -74,21 +75,14 @@ const geojsontest = {
 }
 
 export class FACMap extends Component {
-
-  //constructor() {
-    //super();
-    state = {
-      region: {
-        latitude: 47.656882, 
-        latitudeDelta: 0.013500, 
-        longitude: -122.308035, 
-        longitudeDelta: 0.010948
-      }//,
-    //};
+  state = {
+    region: {
+      latitude: 47.656882, 
+      latitudeDelta: 0.013500, 
+      longitude: -122.308035, 
+      longitudeDelta: 0.010948
+    }
   }
-  // const backgroundStyle = {
-  //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  // };
 
   getInitialState() {
     return {
@@ -141,13 +135,6 @@ export class FACMap extends Component {
         onRegionChangeComplete={region => this.onRegionChange(region)}
         >
 
-        {/* <Marker
-        coordinate={{
-          latitude: 47.656882, 
-          longitude: -122.308035, 
-        }}
-        title="Test Can"
-        /> */}
         <Geojson 
           geojson={geojsontest}
         />
@@ -156,3 +143,16 @@ export class FACMap extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+});
