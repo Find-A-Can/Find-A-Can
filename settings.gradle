@@ -1,2 +1,3 @@
 rootProject.name = 'find-a-can'
 include 'FACBackend'
+include 'FACReact'
