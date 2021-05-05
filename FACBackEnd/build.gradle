@@ -11,3 +11,7 @@ plugins {
 task buildBackend(type: NodeTask) {
     script = file('src/hello-world.js')
 }
+
+tasks.register('test') {
+    dependsOn 'npm_run_test'
+}
