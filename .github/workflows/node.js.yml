@@ -31,3 +31,7 @@ jobs:
            npm run lint;
            npm test;
     # Back end tests
+    - run: cd FACBackEnd/;
+           npm ci;
+           npm run lint;
+           npm run test;
