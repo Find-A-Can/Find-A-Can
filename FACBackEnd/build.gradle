@@ -14,4 +14,9 @@ task buildBackend(type: NodeTask) {
 
 tasks.register('test') {
     dependsOn 'npm_run_test'
+    dependsOn 'npm_run_lint'
+}
+
+tasks.register('lint-fix') {
+    dependsOn 'npm_run_lintfix'
 }
