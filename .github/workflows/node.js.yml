@@ -38,5 +38,5 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
     - name: Test with Gradle
-      run: cd FACBackend/;
+      run: cd FACBackEnd/;
            ./gradlew test;
