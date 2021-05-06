@@ -126,6 +126,7 @@ export class FACMap extends Component {
           }
         }}
         provider={MapView.PROVIDER_GOOGLE}
+        ref={(el) => { this.map = el }}
         style={styles.map}
         showsPointsOfInterest={false}
         showsCompass={true}
@@ -133,6 +134,10 @@ export class FACMap extends Component {
         initialRegion={this.state.region}
         showsUserLocation={true}
         onRegionChangeComplete={region => this.onRegionChange(region)}
+        zoomControlEnabled
+        onMapReady={() => {
+          this.map.map.setNativeProps({ style: {...styles.map, marginLeft: 0} })
+        }}
         >
 
         <Geojson 
@@ -154,5 +159,6 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
+    marginLeft: 1
   },
 });
