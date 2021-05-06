@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import MapView, { Geojson } from 'react-native-maps'
 import {
   PermissionsAndroid,
-  View,
   StyleSheet,
   Dimensions,
+  StatusBar
 } from 'react-native'
 
 // usable colors here https://github.com/react-native-maps/react-native-maps/issues/887#issuecomment-324530282
@@ -74,6 +74,9 @@ const geojsontest = {
   ]
 }
 
+const window = Dimensions.get("window");
+const screen = Dimensions.get("screen");
+
 export class FACMap extends Component {
   state = {
     region: {
@@ -81,6 +84,10 @@ export class FACMap extends Component {
       latitudeDelta: 0.013500, 
       longitude: -122.308035, 
       longitudeDelta: 0.010948
+    }, 
+    dimensions: {
+      window,
+      screen
     }
   }
 
@@ -101,9 +108,21 @@ export class FACMap extends Component {
     console.log(this.state.region);
   }
 
+  onChange = ({ window, screen }) => {
+    this.setState({ dimensions: { window, screen } });
+  };
+
+  componentDidMount() {
+    Dimensions.addEventListener("change", this.onChange);
+  }
+
+  componentWillUnmount() {
+    Dimensions.removeEventListener("change", this.onChange);
+  }
+
   render () {
+    const { dimensions } = this.state;
     return (
-    <View style={styles.container}>
       <MapView
         onMapReady={async () => {
           try {
@@ -124,10 +143,20 @@ export class FACMap extends Component {
           } catch (err) {
             console.warn(err);
           }
+          this.map.setNativeProps({ style: {
+            ...styles.map,
+            marginLeft: 1, 
+            width: dimensions.window.width,
+            height: dimensions.window.height - StatusBar.currentHeight,} 
+          })
         }}
         provider={MapView.PROVIDER_GOOGLE}
         ref={(el) => { this.map = el }}
-        style={styles.map}
+        style={{ 
+          ...styles.map,
+          width: dimensions.window.width,
+          height: dimensions.window.height - StatusBar.currentHeight,
+        }}
         showsPointsOfInterest={false}
         showsCompass={true}
         showsMyLocationButton={true}
@@ -135,30 +164,18 @@ export class FACMap extends Component {
         showsUserLocation={true}
         onRegionChangeComplete={region => this.onRegionChange(region)}
         zoomControlEnabled
-        onMapReady={() => {
-          this.map.map.setNativeProps({ style: {...styles.map, marginLeft: 0} })
-        }}
         >
 
         <Geojson 
           geojson={geojsontest}
         />
       </MapView>
-    </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
   map: {
     ...StyleSheet.absoluteFillObject,
-    marginLeft: 1
   },
 });
