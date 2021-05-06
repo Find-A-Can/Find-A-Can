@@ -62,13 +62,11 @@
 ### Plans for the week
 
 #### Jimmy Guo
-- Set up database on AWS DynamoDB
-- Set up backend environment
+- Rewrite database connection in Node js
 
 #### Aroosh Kumar
 - Write backend dev environment setup instructions
-- Finalize backend dev environment structure
-- Set up gradle build system for backend
+- Rewrite API endpoints in Node js
 
 #### Ryan Tannenberg
 - Set up interface to API in the app
