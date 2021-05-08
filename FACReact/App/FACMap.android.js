@@ -3,8 +3,6 @@ import MapView, { Geojson } from 'react-native-maps'
 import {
   PermissionsAndroid,
   StyleSheet,
-  Dimensions,
-  StatusBar
 } from 'react-native'
 
 // usable colors here https://github.com/react-native-maps/react-native-maps/issues/887#issuecomment-324530282
@@ -74,9 +72,6 @@ const geojsontest = {
   ]
 }
 
-const window = Dimensions.get("window");
-const screen = Dimensions.get("screen");
-
 export class FACMap extends Component {
   state = {
     region: {
@@ -84,10 +79,6 @@ export class FACMap extends Component {
       latitudeDelta: 0.013500, 
       longitude: -122.308035, 
       longitudeDelta: 0.010948
-    }, 
-    dimensions: {
-      window,
-      screen
     }
   }
 
@@ -112,16 +103,7 @@ export class FACMap extends Component {
     this.setState({ dimensions: { window, screen } });
   };
 
-  componentDidMount() {
-    Dimensions.addEventListener("change", this.onChange);
-  }
-
-  componentWillUnmount() {
-    Dimensions.removeEventListener("change", this.onChange);
-  }
-
   render () {
-    const { dimensions } = this.state;
     return (
       <MapView
         onMapReady={async () => {
@@ -145,17 +127,13 @@ export class FACMap extends Component {
           }
           this.map.setNativeProps({ style: {
             ...styles.map,
-            marginLeft: 1, 
-            width: dimensions.window.width,
-            height: dimensions.window.height - StatusBar.currentHeight,} 
+            marginLeft: 1,} 
           })
         }}
         provider={MapView.PROVIDER_GOOGLE}
         ref={(el) => { this.map = el }}
         style={{ 
           ...styles.map,
-          width: dimensions.window.width,
-          height: dimensions.window.height - StatusBar.currentHeight,
         }}
         showsPointsOfInterest={false}
         showsCompass={true}
@@ -163,7 +141,7 @@ export class FACMap extends Component {
         initialRegion={this.state.region}
         showsUserLocation={true}
         onRegionChangeComplete={region => this.onRegionChange(region)}
-        zoomControlEnabled
+        zoomControlEnabled={true}
         >
 
         <Geojson 
@@ -177,5 +155,6 @@ export class FACMap extends Component {
 const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
+    flex:1
   },
 });
