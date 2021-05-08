@@ -1,76 +1,12 @@
 import React, { Component } from 'react'
 import MapView, { Geojson } from 'react-native-maps'
+import {getCans, getDefaultData} from './ServerInteract'
 import {
   PermissionsAndroid,
   StyleSheet,
 } from 'react-native'
 
 // usable colors here https://github.com/react-native-maps/react-native-maps/issues/887#issuecomment-324530282
-const geojsontest = {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {
-        "marker-color": "tomato",
-        "marker-size": "medium",
-        "marker-symbol": "square"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -122.30759382247925,
-          47.65881179780758
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "marker-color": "blue",
-        "marker-size": "medium",
-        "marker-symbol": ""
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -122.30946063995361,
-          47.65437463432688
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "marker-color": "yellow",
-        "marker-size": "medium",
-        "marker-symbol": "triangle"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -122.30370998382567,
-          47.65544421310926
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "marker-color": "aqua",
-        "marker-size": "medium",
-        "marker-symbol": "circle"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -122.30332374572754,
-          47.6584071209998
-        ]
-      }
-    }
-  ]
-}
 
 export class FACMap extends Component {
   state = {
@@ -79,7 +15,8 @@ export class FACMap extends Component {
       latitudeDelta: 0.013500, 
       longitude: -122.308035, 
       longitudeDelta: 0.010948
-    }
+    },
+    cachedData: getDefaultData()
   }
 
   getInitialState() {
@@ -93,15 +30,11 @@ export class FACMap extends Component {
     };
   }
   
-  onRegionChange(region) {
-    this.setState({ region });
-
-    console.log(this.state.region);
+  async onRegionChange(region) {
+    var newCans = await getCans(region);
+    //console.log("new cans found " + JSON.stringify(newCans, null, 2));
+    this.setState({cachedData: newCans});
   }
-
-  onChange = ({ window, screen }) => {
-    this.setState({ dimensions: { window, screen } });
-  };
 
   render () {
     return (
@@ -142,10 +75,11 @@ export class FACMap extends Component {
         onRegionChangeComplete={region => this.onRegionChange(region)}
         zoomControlEnabled={true}
         customMapStyle={customMapStyle}
+        pitchEnabled={false}
         >
 
         <Geojson 
-          geojson={geojsontest}
+          geojson={this.state.cachedData}
         />
       </MapView>
     )
