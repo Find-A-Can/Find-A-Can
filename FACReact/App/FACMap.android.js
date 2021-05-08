@@ -135,13 +135,13 @@ export class FACMap extends Component {
         style={{ 
           ...styles.map,
         }}
-        showsPointsOfInterest={false}
         showsCompass={true}
         showsMyLocationButton={true}
         initialRegion={this.state.region}
         showsUserLocation={true}
         onRegionChangeComplete={region => this.onRegionChange(region)}
         zoomControlEnabled={true}
+        customMapStyle={customMapStyle}
         >
 
         <Geojson 
@@ -156,5 +156,42 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
     flex:1
-  },
+  }
 });
+
+const customMapStyle = [
+  {
+    "featureType": "poi",
+    "elementType": "labels.text",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.business",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  }
+]
