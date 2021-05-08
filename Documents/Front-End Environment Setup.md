@@ -86,11 +86,14 @@ This will install all dependencies necessary to build the project
 
 
 Next run `npx react-native start`  
-This will run a tool called Metro that will build and run the app for you
+This will run a tool called Metro that will work as a debug console for the app
+
+Open your Android Virtual Device or connect a physical device with USB debugging enabled
 
 Open another powershell in /FACReact/  
 Run `npx react-native run-android`  
-This will boot and setup your android emulator  
+This will compile the app and load it on all running Android devices.  
+It will push to both a virtual machine and physical device at the same time if both are connected
 
 In the Metro powershell, press `r` to push the app to the emulator
 
