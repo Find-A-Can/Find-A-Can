@@ -1,4 +1,6 @@
-
+/** 
+ * ServerInteract manages any connections to the garbage can location server
+ *  */
 
 const geojsontest = {
     "type": "FeatureCollection",
@@ -66,11 +68,26 @@ const geojsontest = {
     ]
   }
 
+/**
+ * Takes a region and calls to the server to find any cans in that region
+ * @param {Object} newRegion Rectangular search region
+ * @param {Number} newRegion.latitute Starting latitude value of rectangle
+ * @param {Number} newRegion.latituteDelta Latitude difference to the end of rectangle
+ * @param {Number} newRegion.longitude Starting longitude value of rectangle
+ * @param {Number} newRegion.longitudeDelta Longitude difference to the end of rectangle
+ * 
+ * @returns {Object} GeoJSON FeatureCollection of cans found in area
+ *  
+ */
 export async function getCans(newRegion) {
   console.log("getting cans in " + JSON.stringify(newRegion, null, 2));
   return geojsontest;
 }
 
+/**
+ * Returns an empty GeoJSON FeatureCollection for initialization
+ * @returns {Object} Empty GeoJSON FeatureCollection
+ */
 export function getDefaultData() {
   return {
     "type": "FeatureCollection",

@@ -6,9 +6,15 @@ import {
   StyleSheet,
 } from 'react-native'
 
-// usable colors here https://github.com/react-native-maps/react-native-maps/issues/887#issuecomment-324530282
-
+/**
+ * Manages the map element. Only works on Android
+ */
 export class FACMap extends Component {
+  /*
+    State stores 2 parts
+      region is the currently viewed rectangular area
+      cachedData is a GeoJSON feature list of markers to display
+  */
   state = {
     region: {
       latitude: 47.656882, 
@@ -18,24 +24,27 @@ export class FACMap extends Component {
     },
     cachedData: getDefaultData()
   }
-
-  getInitialState() {
-    return {
-      region: {
-        latitude: 47.656882, 
-        latitudeDelta: 0.013500, 
-        longitude: -122.308035, 
-        longitudeDelta: 0.010948
-      },
-    };
-  }
   
+  /**
+   * Takes a region when the region changes and calls to the ServerInteract 
+   *  to find any cans in that region 
+   * @param {Object} region Rectangular search region
+   * @param {Number} region.latitute Starting latitude value of rectangle
+   * @param {Number} region.latituteDelta Latitude difference to the end of rectangle
+   * @param {Number} region.longitude Starting longitude value of rectangle
+   * @param {Number} region.longitudeDelta Longitude difference to the end of rectangle
+   * 
+   * @modifies State's cachedData is replaced with new data
+   */
   async onRegionChange(region) {
     var newCans = await getCans(region);
     //console.log("new cans found " + JSON.stringify(newCans, null, 2));
     this.setState({cachedData: newCans});
   }
 
+  /*
+    Renders the map
+  */
   render () {
     return (
       <MapView
@@ -86,6 +95,7 @@ export class FACMap extends Component {
   }
 }
 
+// Contains React styles for any componenents
 const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
@@ -93,6 +103,8 @@ const styles = StyleSheet.create({
   }
 });
 
+// Style for the Google map
+// Used to reduce the clutter of markers to just our trash cans
 const customMapStyle = [
   {
     "featureType": "poi",
