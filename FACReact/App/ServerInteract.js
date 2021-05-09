@@ -97,15 +97,21 @@ export async function getCans(newRegion) {
 
   // creates rectangle with highest latitude and longitude values as the first
   //  point and the lowest as the second
-  let firstLat = newRegion.latitude + (newRegion.latitudeDelta / 2);
-  let secondLat = newRegion.latitude - (newRegion.latitudeDelta / 2);
-  let firstLong = newRegion.longitude + (newRegion.longitudeDelta / 2);
-  let secondLong = newRegion.longitude - (newRegion.longitudeDelta / 2);
+  let northLat = newRegion.latitude + (newRegion.latitudeDelta / 2);
+  let southLat = newRegion.latitude - (newRegion.latitudeDelta / 2);
+  let eastLong = newRegion.longitude + (newRegion.longitudeDelta / 2);
+  let westLong = newRegion.longitude - (newRegion.longitudeDelta / 2);
+
+  // ensures values are between -180 and 180
+  // as our map view doesn't scroll vertically past the poles, 
+  //  we do not have to normalize Latitude
+  eastLong = (eastLong % 360 + 540) % 360 - 180;
+  westLong = (eastLong % 360 + 540) % 360 - 180;
  
   // Makes GET request to server using the points
-  let fetchPromise = fetch(CONNECTIONURL + '/getSurroundingTrashCans?' +
-  'firstLatitude=' + firstLat + '&firstLongitude=' + firstLong + 
-  '&secondLatitude=' + secondLat + '&secondLongitude=' + secondLong, {
+  let fetchPromise = fetch(CONNECTIONURL + '/getTrashCansInArea?' +
+  'NorthLatitude=' + northLat + '&EastLongitude=' + eastLong + 
+  '&SouthLatitude=' + southLat + '&WestLongitude=' + westLong, {
     method: 'GET',
     headers: {
       Accept: 'application/json'
