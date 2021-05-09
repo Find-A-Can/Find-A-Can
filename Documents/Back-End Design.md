@@ -19,7 +19,7 @@ lat and long will be on a scale from -180 to 180.
 ## Get Requests:
 getTrashCansInArea
 
-- Parameters: MaxLatitude, MaxLongitude, MinLatitude, MinLongitude
+- Parameters: NorthLatitude, EastLongitude, SouthLatitude, WestLongitude
 - Returns: A GeoJSON object of the locations of the trash cans
     - Each can will be its own Feature,  
        With the properties "isGarbage":"true|false", "isCompost":"true|false", and "isRecycling":"true|false"
