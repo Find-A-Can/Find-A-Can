@@ -9,6 +9,9 @@
 import React from 'react';
 import { FACMap } from './FACMap.android'
 
+/**
+ * Controls the entire application
+ */
 const App = () => {
   // const isDarkMode = useColorScheme() === 'dark';
 
