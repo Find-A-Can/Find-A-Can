@@ -24,6 +24,30 @@ getTrashCansInArea
     - Each can will be its own Feature,  
        With the properties "isGarbage":"true|false", "isCompost":"true|false", and "isRecycling":"true|false"
 
+This is an example GeoJSON that we will be using. This has a single can location with both garbage and compost, but not recycling.
+```JSON
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "isGarbage": "true",
+        "isCompost": "true",
+        "isRecycling": "false"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3068857192993,
+          47.65706299337809
+        ]
+      }
+    }
+  ]
+}
+```
+
 ## Post Request:
 addNewTrashCan
 
