@@ -13,12 +13,40 @@ CREATE TABLE Locations (
 This will allow for each entry in the table to represent a single trash station, and indicate what kinds of trash disposal facilities are available at every location.
 The lat and lng fields correspond the the latitude and longitude of the trash station.
 
+lat and long will be on a scale from -180 to 180.
+
 # API Endpoints
 ## Get Requests:
-getSurroundingTrashCans
+getTrashCansInArea
 
-- Parameters: Latitude, Longitude, radius (in miles)
+- Parameters: NorthLatitude, EastLongitude, SouthLatitude, WestLongitude
 - Returns: A GeoJSON object of the locations of the trash cans
+    - Each can will be its own Feature,  
+       With the properties "isGarbage":"true|false", "isCompost":"true|false", and "isRecycling":"true|false"
+
+This is an example GeoJSON that we will be using. This has a single can location with both garbage and compost, but not recycling.
+```JSON
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "isGarbage": "true",
+        "isCompost": "true",
+        "isRecycling": "false"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.3068857192993,
+          47.65706299337809
+        ]
+      }
+    }
+  ]
+}
+```
 
 ## Post Request:
 addNewTrashCan
