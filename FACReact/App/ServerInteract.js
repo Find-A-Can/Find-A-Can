@@ -128,7 +128,6 @@ export async function getCans(newRegion) {
   // At the end of timeout ejects from function
   const delay = (timeout, error) => new Promise(
     (resolve, reject) => setTimeout(() => { 
-      console.log("Timeout reached, no response after " + timeout + "ms");
       // TODO replace with reject once API can be connected to
       // This placeholder makes it load the test data on fail
       resolve(error); 
@@ -138,12 +137,13 @@ export async function getCans(newRegion) {
 
   // Leaves function when the first promise is returned
   // This is when the timeout ends, the network request succeeds or the request fails
-  await Promise.race([fetchPromise, delay(MAXAPIWAITTIME, 'Timeout Error')]);
+  await Promise.race([fetchPromise, 
+    delay(MAXAPIWAITTIME, 'Timeout on add cans reached, no response after ' 
+      + MAXAPIWAITTIME + "ms")
+  ]);
 
   // TODO remove once API is connectable
   return geojsontest;
-  
- 
 }
 
 /**
@@ -155,4 +155,63 @@ export function getDefaultData() {
     "type": "FeatureCollection",
     "features": []
   }
+}
+
+/**
+ * Sends a POST request to the database to add a new can
+ * 
+ * @param {Number} latitude Latitude of new can
+ * @param {Number} longitude Longitude of new can
+ * @param {Boolean} isGarbage Whether can takes garbage
+ * @param {Boolean} isCompost Whether can takes compost
+ * @param {Boolean} isRecycling Whether can takes recycling
+ * 
+ * @throws Error if the request takes more than MAXAPIWAITTIME ms 
+ *  or the network request fails
+ * 
+ * @returns {String} message on success
+ */
+export async function addNewCan(
+  latitude, longitude, isGarbage, isCompost, isRecycling) {
+
+  // Makes POST request to server to add a new can
+  let fetchPromise = fetch(CONNECTIONURL + '/addNewTrashCan', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json'
+    },
+    body: {
+      latitude: latitude, 
+      longitude: longitude, 
+      isGarbage: isGarbage, 
+      isCompost: isCompost, 
+      isRecycling: isRecycling,
+    }
+  })
+  .then((response) => response.json())
+  .then((json) => {
+    console.log("Add new trash can succeeded");
+    console.log(json);
+
+    return "added new can";
+  })
+  .catch((error) => {
+    console.log("Add new trash can failed");
+    console.error(error);
+  });
+
+  // Timeout to prevent infinite wait time for fetch
+  // At the end of timeout ejects from function
+  const delay = (timeout, error) => new Promise(
+    (resolve, reject) => setTimeout(() => { 
+      reject(error); 
+    }, timeout)
+  );
+
+  // Leaves function when the first promise is returned
+  // This is when the timeout ends, the network request succeeds or the request fails
+  await Promise.race([fetchPromise, 
+    delay(MAXAPIWAITTIME, 'Timeout on add cans reached, no response after ' 
+      + MAXAPIWAITTIME + "ms")
+  ]);
 }
