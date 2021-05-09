@@ -2,81 +2,13 @@
  * ServerInteract manages any connections to the garbage can location server
  *  */
 
-// Dummy data to send back to front end
-// To be removed when API is working
-const geojsontest = {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {
-        "marker-color": "tomato",
-        "marker-size": "medium",
-        "marker-symbol": "square"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -122.30759382247925,
-          47.65881179780758
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "marker-color": "blue",
-        "marker-size": "medium",
-        "marker-symbol": ""
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -122.30946063995361,
-          47.65437463432688
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "marker-color": "yellow",
-        "marker-size": "medium",
-        "marker-symbol": "triangle"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -122.30370998382567,
-          47.65544421310926
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "marker-color": "aqua",
-        "marker-size": "medium",
-        "marker-symbol": "circle"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -122.30332374572754,
-          47.6584071209998
-        ]
-      }
-    }
-  ]
-}
-
 // Max waiting time before giving up on an API request
 //  In ms so 1000 = 1 second
-const MAXAPIWAITTIME = 3 * 1000;
+const MAXAPIWAITTIME = 10 * 1000;
 
 // URL to server
 // TODO fill with amazon server URL
-const CONNECTIONURL = 'http://IPv4:3000'
+const CONNECTIONURL = 'http://10.0.0.106:3000'
 
 /**
  * Takes a region and calls to the server to find any cans in that region
@@ -109,7 +41,7 @@ export async function getCans(newRegion) {
   westLong = (eastLong % 360 + 540) % 360 - 180;
  
   // Makes GET request to server using the points
-  let fetchPromise = fetch(CONNECTIONURL + '/getTrashCansInArea?' +
+  let fetchPromise = fetch(CONNECTIONURL + '/locations?' +
   'NorthLatitude=' + northLat + '&EastLongitude=' + eastLong + 
   '&SouthLatitude=' + southLat + '&WestLongitude=' + westLong, {
     method: 'GET',
@@ -120,10 +52,9 @@ export async function getCans(newRegion) {
   .then((response) => response.json())
   .then((json) => {
     console.log("GET trash cans in an area succeeded");
-    console.log(json);
+    //console.log(JSON.stringify(json, null, 2));
 
-    // TODO replace with returned data
-    return geojsontest;
+    return json;
   })
   .catch((error) => {
     console.log("GET trash cans in an area failed");
@@ -134,22 +65,16 @@ export async function getCans(newRegion) {
   // At the end of timeout ejects from function
   const delay = (timeout, error) => new Promise(
     (resolve, reject) => setTimeout(() => { 
-      // TODO replace with reject once API can be connected to
-      // This placeholder makes it load the test data on fail
-      resolve(error); 
-      //reject(error); 
+      reject(error); 
     }, timeout)
   );
 
   // Leaves function when the first promise is returned
   // This is when the timeout ends, the network request succeeds or the request fails
-  await Promise.race([fetchPromise, 
+  return await Promise.race([fetchPromise, 
     delay(MAXAPIWAITTIME, 'Timeout on add cans reached, no response after ' 
       + MAXAPIWAITTIME + "ms")
   ]);
-
-  // TODO remove once API is connectable
-  return geojsontest;
 }
 
 /**
