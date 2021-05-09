@@ -29,17 +29,21 @@ export class FACMap extends Component {
    * Takes a region when the region changes and calls to the ServerInteract 
    *  to find any cans in that region 
    * @param {Object} region Rectangular search region
-   * @param {Number} region.latitute Starting latitude value of rectangle
-   * @param {Number} region.latituteDelta Latitude difference to the end of rectangle
-   * @param {Number} region.longitude Starting longitude value of rectangle
-   * @param {Number} region.longitudeDelta Longitude difference to the end of rectangle
+   * @param {Number} region.latitude Center latitude value of rectangle
+   * @param {Number} region.latitudeDelta Latitude size of view rectangle
+   * @param {Number} region.longitude Center longitude value of rectangle
+   * @param {Number} region.longitudeDelta Longitude size of view rectangle
    * 
-   * @modifies State's cachedData is replaced with new data
+   * @modifies State's cachedData is replaced with new data if successful
    */
   async onRegionChange(region) {
-    var newCans = await getCans(region);
-    //console.log("new cans found " + JSON.stringify(newCans, null, 2));
-    this.setState({cachedData: newCans});
+    try {
+      let newCans = await getCans(region);
+      //console.log("new cans found " + JSON.stringify(newCans, null, 2));
+      this.setState({cachedData: newCans});
+    } catch (err) {
+      console.log("onRegionChange failed");
+    }
   }
 
   /*
