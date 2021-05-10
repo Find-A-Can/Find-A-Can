@@ -4,6 +4,8 @@ import {/*addNewCan,*/ getCans, getDefaultData} from './ServerInteract'
 import {
   PermissionsAndroid,
   StyleSheet,
+  View,
+  Button,
 } from 'react-native'
 
 
@@ -40,6 +42,7 @@ export class FACMap extends Component {
    * @modifies State's cachedData is replaced with new data if successful
    */
   async onRegionChange(region) {
+    this.setState({region: region});
     if (!isGettingCans) {
       isGettingCans = true;
       try {
@@ -55,12 +58,23 @@ export class FACMap extends Component {
     }
   }
 
+  onAddCanPress() {
+    addNewCan(
+      this.state.region.latitude,
+      this.state.region.longitude,
+      true,
+      true,
+      true
+    );
+  }
+
   /*
     Renders the map
   */
   render () {
     return (
-      <MapView
+      <View style={{...styles.parent}}>
+        <MapView
         onMapReady={async () => {
           try {
             const granted = await PermissionsAndroid.request(
@@ -103,16 +117,29 @@ export class FACMap extends Component {
         <Geojson 
           geojson={this.state.cachedData}
         />
-      </MapView>
+        </MapView>
+
+        <View style={{...styles.buttonContainer}}>
+            <Button title="add" onPress={() => this.onAddCanPress()}/>
+            <Button title="search"/>
+        </View>
+      </View>
     )
   }
 }
 
 // Contains React styles for any componenents
 const styles = StyleSheet.create({
+  parent: {
+    flex: 1,
+    flexDirection: 'column'
+  },
   map: {
-    ...StyleSheet.absoluteFillObject,
     flex:1
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   }
 });
 
