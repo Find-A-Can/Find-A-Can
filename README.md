@@ -26,10 +26,10 @@ Note that on some machines installing npm packages may take up to 15 minutes
 Make sure your Android physical and/or virtual devices are connected and set up  
 Open a shell window in Find-A-Can/FACReact  
 Run `npx react-native start`  
-This will boot a program called Metro that is used to read back any console logging from the app
+This will boot a program called Metro that is used to read back any console logging from the app  
 Leave this shell open
 
-Next compile and run the android app in a new shell window in /Find-A-Can/
+Next compile and run the android app in a new shell window in /Find-A-Can/  
 Run `gradle run-android`  
 This will compile and run the app on all connected virtual or physical Android devices
 
