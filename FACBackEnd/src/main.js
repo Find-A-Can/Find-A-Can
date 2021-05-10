@@ -1,3 +1,6 @@
+const getItem = require('./getItem.js')
+const queryDB = require('./queryDB.js')
+
 const express = require('express')
 const app = express()
 
@@ -69,13 +72,44 @@ const dummyData = {
   ]
 }
 
-app.get('/locations', (req, res) => {
-  res.json(dummyData)
+app.get('/getTrashCansInArea', async (req, res) => {
+  currQuery = req.query
+
+  projectionExpression = 'Lat, Lng, IsCompost, IsGarbage,IsRecycling'
+  condition = 'Lat between :south and :north and Lng between :west and :east'
+  expression = {
+    ':north': parseInt(currQuery.NorthLatitude),
+    ':south': parseInt(currQuery.SouthLatitude),
+    ':east': parseInt(currQuery.EastLongitude),
+    ':west': parseInt(currQuery.WestLongitude)
+  }
+  
+  data = await queryDB.query(condition, expression, projectionExpression)
+
+  output = data.map((e) => {
+    return {
+      type: 'Feature',
+      properties: {
+        isGarbage: e.IsGarbage,
+        isCompost: e.IsCompost,
+        isRecycling: e.IsRecycling
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [
+          e.Lat,
+          e.Lng
+        ]
+      }
+    }
+  })
+
+  res.json(output)
 })
 
 app.post('/update', (req, res) => {
   console.log(req.query)
-  res.send('recieved!')
+  res.send('received!')
 })
 
 app.listen(port, () => console.log(`Hello world app is listening on port ${port}!`))
