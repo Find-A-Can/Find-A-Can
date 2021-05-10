@@ -9,9 +9,9 @@ const dummyData = {
     {
       type: 'Feature',
       properties: {
-        'marker-color': 'tomato',
-        'marker-size': 'medium',
-        'marker-symbol': 'square'
+        isGarbage: true,
+        isCompost: true,
+        isRecycling: true
       },
       geometry: {
         type: 'Point',
@@ -24,9 +24,9 @@ const dummyData = {
     {
       type: 'Feature',
       properties: {
-        'marker-color': 'blue',
-        'marker-size': 'medium',
-        'marker-symbol': ''
+        isGarbage: true,
+        isCompost: true,
+        isRecycling: true
       },
       geometry: {
         type: 'Point',
@@ -39,9 +39,9 @@ const dummyData = {
     {
       type: 'Feature',
       properties: {
-        'marker-color': 'yellow',
-        'marker-size': 'medium',
-        'marker-symbol': 'triangle'
+        isGarbage: true,
+        isCompost: true,
+        isRecycling: true
       },
       geometry: {
         type: 'Point',
@@ -54,9 +54,9 @@ const dummyData = {
     {
       type: 'Feature',
       properties: {
-        'marker-color': 'aqua',
-        'marker-size': 'medium',
-        'marker-symbol': 'circle'
+        isGarbage: true,
+        isCompost: true,
+        isRecycling: true
       },
       geometry: {
         type: 'Point',
