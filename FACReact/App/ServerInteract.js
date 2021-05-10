@@ -4,14 +4,14 @@
 
 // Max waiting time before giving up on an API request
 //  In ms so 1000 = 1 second
-const MAXAPIWAITTIME = 10 * 1000;
+const MAXAPIWAITTIME = 1 * 1000;
 
 // URL to server
 // TODO fill with amazon server URL
-const CONNECTIONURL = 'http://<ip_address>:3000'
+const CONNECTIONURL = 'http://test:3000'
 
 async function fetchWithTimeout(resource, options) {
-  const controller = new AbortController();
+  const controller = new window.AbortController();
   const id = setTimeout(() => controller.abort(), MAXAPIWAITTIME);
 
   console.log(options);
