@@ -8,7 +8,7 @@ const MAXAPIWAITTIME = 1 * 1000;
 
 // URL to server
 // TODO fill with amazon server URL
-const CONNECTIONURL = 'http://test:3000'
+const CONNECTIONURL = require("./ServerURL.json");
 
 async function fetchWithTimeout(resource, options) {
   const controller = new window.AbortController();
