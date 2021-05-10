@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import MapView, { Geojson } from 'react-native-maps'
-import {getCans, getDefaultData} from './ServerInteract'
+import {addNewCan, getCans, getDefaultData} from './ServerInteract'
 import {
   PermissionsAndroid,
   StyleSheet,
 } from 'react-native'
+
+
+var isGettingCans = false;
 
 /**
  * Manages the map element. Only works on Android
@@ -37,12 +40,18 @@ export class FACMap extends Component {
    * @modifies State's cachedData is replaced with new data if successful
    */
   async onRegionChange(region) {
-    try {
-      let newCans = await getCans(region);
-      //console.log("new cans found " + JSON.stringify(newCans, null, 2));
-      this.setState({cachedData: newCans});
-    } catch (err) {
-      console.log("onRegionChange failed");
+    if (!isGettingCans) {
+      isGettingCans = true;
+      try {
+        let newCans = await getCans(region);
+        //console.log("new cans found " + JSON.stringify(newCans, null, 2));
+        this.setState({cachedData: newCans ?? getDefaultData()}, () => {
+          isGettingCans = false;
+        });
+      } catch (err) {
+        console.log("onRegionChange failed");
+        isGettingCans = false;
+      }
     }
   }
 
