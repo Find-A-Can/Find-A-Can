@@ -11,3 +11,26 @@ While there exists an app that does this, it has some shortcomings we’d like t
 - Documents: project specs, backend and frontend specs, installation and deployment guides
 - Reports: reports to our project manager
 - FACReact: React Native source code
+
+## Building 
+First you need to prepare your computer and physical or virtual Android devices to build React Native apps
+[Follow our setup instructions here](https://github.com/Find-A-Can/Find-A-Can/blob/main/Documents/Front-End%20Environment%20Setup.md)
+
+Next run the bash command `gradle test` in the Find-A-Can/ directory   
+This will install all packages and test both the front and back ends  
+Note that on some machines installing npm packages may take up to 15 minutes
+
+## Running 
+
+### Android App / Front End
+Make sure your Android physical and/or virtual devices are connected and set up  
+Open a shell window in Find-A-Can/FACReact  
+Run `npx react-native start`  
+This will boot a program called Metro that is used to read back any console logging from the app
+Leave this shell open
+
+Next compile and run the android app in a new shell window in /Find-A-Can/
+Run `gradle run-android`  
+This will compile and run the app on all connected virtual or physical Android devices
+
+### Back end
