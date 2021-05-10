@@ -17,7 +17,7 @@ tasks.register('lint-fix') {
     dependsOn 'npm_run_lintfix'
 }
 
-tasks.register('android-run') {
+tasks.register('run-android') {
     dependsOn 'npm_run_test'
     dependsOn 'npm_run_android'
 }
