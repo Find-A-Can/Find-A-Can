@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import MapView, { Geojson } from 'react-native-maps'
-import {addNewCan, getCans, getDefaultData} from './ServerInteract'
+import {/*addNewCan,*/ getCans, getDefaultData} from './ServerInteract'
 import {
   PermissionsAndroid,
   StyleSheet,
