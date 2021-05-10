@@ -18,6 +18,24 @@ If you already have it installed, or after you install, check your version in po
 Install a JDK version 8 or newer  
 [https://openjdk.java.net/projects/jdk8/](https://openjdk.java.net/projects/jdk8/)
 
+### Gradle 
+Download a gradle binary  
+[https://gradle.org/install/](https://gradle.org/install/)
+
+Extract the .zip file into `C:/Gradle/gradle-{gradle version}/`  
+For example the newest version and newest install would be `C:/Gradle/gradle-7.0.1/`  
+
+#### Add Gradle to path variable
+1. In windows search, go to "edit environment variables for your account"
+2. Click "Environment Variables..." on the bottom right
+3. Click on the user variable "Path" and hit "Edit..."
+4. Click "New" 
+5. Paste a new line `C:/Gradle/gradle-7.0.1/`
+6. Hit "OK"
+
+Finally check your gradle by opening a shell and typing `gradle -v`  
+It should report back your gradle version if installed correctly
+
 ### Android Studio
 Download Android Studio  
 [https://developer.android.com/studio/index.html](https://developer.android.com/studio/index.html)
