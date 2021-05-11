@@ -37,7 +37,12 @@ app.get('/getTrashCansInArea', async (req, res) => {
     }
   })
 
-  res.json(output)
+  const geoJSON = {
+    type: 'FeatureCollection',
+    features: output
+  }
+
+  res.json(geoJSON)
 })
 
 app.post('/update', (req, res) => {
