@@ -54,7 +54,7 @@ export async function getCans(newRegion) {
   // as our map view doesn't scroll vertically past the poles, 
   //  we do not have to normalize Latitude
   eastLong = (eastLong % 360 + 540) % 360 - 180;
-  westLong = (eastLong % 360 + 540) % 360 - 180;
+  westLong = (westLong % 360 + 540) % 360 - 180;
  
   // Makes GET request to server using the points
   console.log(CONNECTIONURL + '/getTrashCansInArea?' +
@@ -69,8 +69,12 @@ export async function getCans(newRegion) {
       Accept: 'application/json'
     }
   })
-  .then((response) => response.json())
-  .then((json) => {
+  .then((response) => {
+    if (response.status != 200) {
+      throw new Error('Bad response code: ' + response.status + ' is not 200 OK');
+    }
+    return response.json();
+  })  .then((json) => {
     console.log("GET trash cans in an area succeeded");
     return json;
   })
@@ -123,7 +127,12 @@ export async function addNewCan(
       isRecycling: isRecycling,
     })
   })
-  .then((response) => response.json())
+  .then((response) => {
+    if (response.status != 200) {
+      throw new Error('Bad response code: ' + response.status + ' is not 200 OK');
+    }
+    return response.json();
+  })
   .then((json) => {
     console.log("Add new trash can succeeded");
     console.log(json);
