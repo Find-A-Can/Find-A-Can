@@ -11,10 +11,10 @@ app.get('/getTrashCansInArea', async (req, res) => {
   const projectionExpression = 'Lat, Lng, IsCompost, IsGarbage,IsRecycling'
   const condition = 'Lat between :south and :north and Lng between :west and :east'
   const expression = {
-    ':north': parseInt(currQuery.NorthLatitude),
-    ':south': parseInt(currQuery.SouthLatitude),
-    ':east': parseInt(currQuery.EastLongitude),
-    ':west': parseInt(currQuery.WestLongitude)
+    ':north': parseFloat(currQuery.NorthLatitude),
+    ':south': parseFloat(currQuery.SouthLatitude),
+    ':east': parseFloat(currQuery.EastLongitude),
+    ':west': parseFloat(currQuery.WestLongitude)
   }
 
   const data = await queryDB.query(condition, expression, projectionExpression)
