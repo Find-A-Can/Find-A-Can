@@ -1,4 +1,3 @@
-const getItem = require('./getItem.js')
 const queryDB = require('./queryDB.js')
 
 const express = require('express')
@@ -6,87 +5,21 @@ const app = express()
 
 const port = 3000
 
-const dummyData = {
-  type: 'FeatureCollection',
-  features: [
-    {
-      type: 'Feature',
-      properties: {
-        isGarbage: true,
-        isCompost: true,
-        isRecycling: true
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [
-          -122.30759382247925,
-          47.65881179780758
-        ]
-      }
-    },
-    {
-      type: 'Feature',
-      properties: {
-        isGarbage: true,
-        isCompost: true,
-        isRecycling: true
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [
-          -122.30946063995361,
-          47.65437463432688
-        ]
-      }
-    },
-    {
-      type: 'Feature',
-      properties: {
-        isGarbage: true,
-        isCompost: true,
-        isRecycling: true
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [
-          -122.30370998382567,
-          47.65544421310926
-        ]
-      }
-    },
-    {
-      type: 'Feature',
-      properties: {
-        isGarbage: true,
-        isCompost: true,
-        isRecycling: true
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [
-          -122.30332374572754,
-          47.6584071209998
-        ]
-      }
-    }
-  ]
-}
-
 app.get('/getTrashCansInArea', async (req, res) => {
-  currQuery = req.query
+  const currQuery = req.query
 
-  projectionExpression = 'Lat, Lng, IsCompost, IsGarbage,IsRecycling'
-  condition = 'Lat between :south and :north and Lng between :west and :east'
-  expression = {
+  const projectionExpression = 'Lat, Lng, IsCompost, IsGarbage,IsRecycling'
+  const condition = 'Lat between :south and :north and Lng between :west and :east'
+  const expression = {
     ':north': parseInt(currQuery.NorthLatitude),
     ':south': parseInt(currQuery.SouthLatitude),
     ':east': parseInt(currQuery.EastLongitude),
     ':west': parseInt(currQuery.WestLongitude)
   }
-  
-  data = await queryDB.query(condition, expression, projectionExpression)
 
-  output = data.map((e) => {
+  const data = await queryDB.query(condition, expression, projectionExpression)
+
+  const output = data.map((e) => {
     return {
       type: 'Feature',
       properties: {
