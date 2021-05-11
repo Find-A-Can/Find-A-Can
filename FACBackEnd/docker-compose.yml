@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+    server:
+        build: .
+        ports:
+            - "3000:3000"
+        environment: 
+            - AWS_ACCESS_KEY_ID=${ACCESS_KEY}
+            - AWS_SECRET_ACCESS_KEY=${SECRET_KEY}

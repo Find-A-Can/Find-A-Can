@@ -1,10 +1,10 @@
-export function query (filterExpr, exprAttributeVal, projExpr) {
-  const AWS = require('aws-sdk')
+const AWS = require('aws-sdk')
+
+async function query (filterExpr, exprAttributeVal, projExpr) {
   // Set the region
   AWS.config.update({ region: 'us-west-2' })
-
   // Create DynamoDB service object
-  const ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' })
+  const ddb = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10' })
 
   const params = {
     // Specify which items in the results are returned.
@@ -15,20 +15,15 @@ export function query (filterExpr, exprAttributeVal, projExpr) {
     ProjectionExpression: projExpr,
     TableName: 'Locations'
   }
-
-  ddb.scan(params, function (err, data) {
+  const request = await ddb.scan(params, function (err, data) {
     if (err) {
       console.log('Error', err)
     } else {
-      console.log('Success', data)
-      data.Items.forEach(function (element, index, array) {
-        console.log(
-          'printing',
-          element.Lat.N + ', ' + element.Lng.N + ', ' +
-             element.IsGarbage.BOOL + ', ' + element.IsCompost.BOOL + ', ' + element.IsRecying.BOOL
-        )
-      })
+      console.log('Received ' + String(data.Count) + ' points')
     }
-  })
+  }).promise()
+
+  // console.log(request)
+  return request.Items
 }
 module.exports = { query }

@@ -6,3 +6,7 @@ build
 
 # Ignore the dependencies downloaded by npm install
 node_modules/
+
+new_user_credentials.csv
+
+.env
