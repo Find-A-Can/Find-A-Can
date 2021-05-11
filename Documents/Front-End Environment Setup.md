@@ -18,6 +18,24 @@ If you already have it installed, or after you install, check your version in po
 Install a JDK version 8 or newer  
 [https://openjdk.java.net/projects/jdk8/](https://openjdk.java.net/projects/jdk8/)
 
+### Gradle 
+Download a gradle binary  
+[https://gradle.org/install/](https://gradle.org/install/)
+
+Extract the .zip file into `C:/Gradle/gradle-{gradle version}/`  
+For example the newest version and newest install would be `C:/Gradle/gradle-7.0.1/`  
+
+#### Add Gradle to path variable
+1. In windows search, go to "edit environment variables for your account"
+2. Click "Environment Variables..." on the bottom right
+3. Click on the user variable "Path" and hit "Edit..."
+4. Click "New" 
+5. Paste a new line `C:/Gradle/gradle-7.0.1/`
+6. Hit "OK"
+
+Finally check your gradle by opening a shell and typing `gradle -v`  
+It should report back your gradle version if installed correctly
+
 ### Android Studio
 Download Android Studio  
 [https://developer.android.com/studio/index.html](https://developer.android.com/studio/index.html)
@@ -67,23 +85,22 @@ Check your virtual devices in Android Studio
 - If you want to make a new device, hit "Create Virtual Device..." 
     - This device must also have the Play Store logo in order for the map to function
 
-### Add API Key
+## Add API Key
 First, create a project and API Key  
 [https://developers.google.com/maps/documentation/android-api/signup#release-cert](https://developers.google.com/maps/documentation/android-api/signup#release-cert)
-
 
 Create a file `FACReact/android/local.properties`  
 The file's contents should just be  
 `MAPS_API_KEY=YOUR_API_KEY`
 
+## Set test server URL
+Set the URL to your back end API endpoints in FACReact/App/ServerURL.json  
 
 ## Running the app
-First enter a powershell window in the /FACReact/ directory
+First enter a powershell or other shell window in the /FACReact/ directory
 
-
-First run `npm install`  
+First run `gradle test`  
 This will install all dependencies necessary to build the project
-
 
 Next run `npx react-native start`  
 This will run a tool called Metro that will work as a debug console for the app
@@ -91,7 +108,7 @@ This will run a tool called Metro that will work as a debug console for the app
 Open your Android Virtual Device or connect a physical device with USB debugging enabled
 
 Open another powershell in /FACReact/  
-Run `npx react-native run-android`  
+Run `gradle run-android`  
 This will compile the app and load it on all running Android devices.  
 It will push to both a virtual machine and physical device at the same time if both are connected
 

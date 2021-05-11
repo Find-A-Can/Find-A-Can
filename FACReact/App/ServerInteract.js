@@ -4,11 +4,27 @@
 
 // Max waiting time before giving up on an API request
 //  In ms so 1000 = 1 second
-const MAXAPIWAITTIME = 10 * 1000;
+const MAXAPIWAITTIME = 1 * 1000;
 
 // URL to server
 // TODO fill with amazon server URL
-const CONNECTIONURL = 'http://10.0.0.106:3000'
+const CONNECTIONURL = require("./ServerURL.json");
+
+async function fetchWithTimeout(resource, options) {
+  const controller = new window.AbortController();
+  const id = setTimeout(() => controller.abort(), MAXAPIWAITTIME);
+
+  console.log(options);
+
+  const response = await fetch(resource, {
+    ...options,
+    signal: controller.signal
+  });
+  clearTimeout(id);
+
+  return response;
+}
+
 
 /**
  * Takes a region and calls to the server to find any cans in that region
@@ -41,7 +57,9 @@ export async function getCans(newRegion) {
   westLong = (eastLong % 360 + 540) % 360 - 180;
  
   // Makes GET request to server using the points
-  let fetchPromise = fetch(CONNECTIONURL + '/locations?' +
+
+
+  return await fetchWithTimeout(CONNECTIONURL + '/locations?' +
   'NorthLatitude=' + northLat + '&EastLongitude=' + eastLong + 
   '&SouthLatitude=' + southLat + '&WestLongitude=' + westLong, {
     method: 'GET',
@@ -52,29 +70,12 @@ export async function getCans(newRegion) {
   .then((response) => response.json())
   .then((json) => {
     console.log("GET trash cans in an area succeeded");
-    //console.log(JSON.stringify(json, null, 2));
-
     return json;
   })
   .catch((error) => {
     console.log("GET trash cans in an area failed");
     console.error(error);
   });
-
-  // Timeout to prevent infinite wait time for fetch
-  // At the end of timeout ejects from function
-  const delay = (timeout, error) => new Promise(
-    (resolve, reject) => setTimeout(() => { 
-      reject(error); 
-    }, timeout)
-  );
-
-  // Leaves function when the first promise is returned
-  // This is when the timeout ends, the network request succeeds or the request fails
-  return await Promise.race([fetchPromise, 
-    delay(MAXAPIWAITTIME, 'Timeout on add cans reached, no response after ' 
-      + MAXAPIWAITTIME + "ms")
-  ]);
 }
 
 /**
@@ -106,18 +107,19 @@ export async function addNewCan(
   latitude, longitude, isGarbage, isCompost, isRecycling) {
 
   // Makes POST request to server to add a new can
-  let fetchPromise = fetch(CONNECTIONURL + '/addNewTrashCan', {
+  return await fetch(CONNECTIONURL + '/addNewTrashCan', {
     method: 'POST',
     headers: {
-      Accept: 'application/json'
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
     },
-    body: {
+    body: JSON.stringify({
       latitude: latitude, 
       longitude: longitude, 
       isGarbage: isGarbage, 
       isCompost: isCompost, 
       isRecycling: isRecycling,
-    }
+    })
   })
   .then((response) => response.json())
   .then((json) => {
@@ -130,19 +132,4 @@ export async function addNewCan(
     console.log("Add new trash can failed");
     console.error(error);
   });
-
-  // Timeout to prevent infinite wait time for fetch
-  // At the end of timeout ejects from function
-  const delay = (timeout, error) => new Promise(
-    (resolve, reject) => setTimeout(() => { 
-      reject(error); 
-    }, timeout)
-  );
-
-  // Leaves function when the first promise is returned
-  // This is when the timeout ends, the network request succeeds or the request fails
-  await Promise.race([fetchPromise, 
-    delay(MAXAPIWAITTIME, 'Timeout on add cans reached, no response after ' 
-      + MAXAPIWAITTIME + "ms")
-  ]);
 }

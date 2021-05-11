@@ -3,17 +3,18 @@ Database: We will use a flat MySQL database, using Amazon DynamoDB to store the 
 The schema will be the following:
 ```
 CREATE TABLE Locations (
-    lat DECIMAL(9,6),
-    lng DECIMAL(9,6),
-    isGarbage BIT,
-    isCompost BIT,
-    isRecycling BIT
+    Lat Number,
+    Lng Number,
+    IsGarbage BOOL,
+    IsCompost BOOL,
+    IsRecycling BOOL
 );
 ```
+In this case, Lat is the partition key in our database and Lng is the sort key.
 This will allow for each entry in the table to represent a single trash station, and indicate what kinds of trash disposal facilities are available at every location.
 The lat and lng fields correspond the the latitude and longitude of the trash station.
 
-lat and long will be on a scale from -180 to 180.
+Lat and Lng will be on a scale from -180 to 180.
 
 # API Endpoints
 ## Get Requests:
