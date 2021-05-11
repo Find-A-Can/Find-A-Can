@@ -4,17 +4,17 @@
 
 // Max waiting time before giving up on an API request
 //  In ms so 1000 = 1 second
-const MAXAPIWAITTIME = 1 * 1000;
+const MAXAPIWAITTIME = 5 * 1000;
 
 // URL to server
 // TODO fill with amazon server URL
-const CONNECTIONURL = require("./ServerURL.json");
+const CONNECTIONURL = require("./ServerURL.json").serverURL;
 
 async function fetchWithTimeout(resource, options) {
   const controller = new window.AbortController();
   const id = setTimeout(() => controller.abort(), MAXAPIWAITTIME);
 
-  console.log(options);
+  //console.log(options);
 
   const response = await fetch(resource, {
     ...options,
@@ -57,9 +57,11 @@ export async function getCans(newRegion) {
   westLong = (eastLong % 360 + 540) % 360 - 180;
  
   // Makes GET request to server using the points
+  console.log(CONNECTIONURL + '/getTrashCansInArea?' +
+  'NorthLatitude=' + northLat + '&EastLongitude=' + eastLong + 
+  '&SouthLatitude=' + southLat + '&WestLongitude=' + westLong);
 
-
-  return await fetchWithTimeout(CONNECTIONURL + '/locations?' +
+  return await fetchWithTimeout(CONNECTIONURL + '/getTrashCansInArea?' +
   'NorthLatitude=' + northLat + '&EastLongitude=' + eastLong + 
   '&SouthLatitude=' + southLat + '&WestLongitude=' + westLong, {
     method: 'GET',

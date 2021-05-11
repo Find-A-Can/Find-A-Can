@@ -23,9 +23,9 @@ export class FACMap extends Component {
   state = {
     region: {
       latitude: 47.656882, 
-      latitudeDelta: 0.013500, 
+      latitudeDelta: 3.013500, 
       longitude: -122.308035, 
-      longitudeDelta: 0.010948
+      longitudeDelta: 3.010948
     },
     cachedData: getDefaultData()
   }
