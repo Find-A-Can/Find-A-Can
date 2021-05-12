@@ -23,12 +23,18 @@ Currently working use cases
     - Currently adds a garbage can at the center of the screen. Will be updated in the future to add other types of cans
 
 ## Building 
+
 First you need to prepare your computer and physical or virtual Android devices to build React Native apps
 [Follow our setup instructions here](https://github.com/Find-A-Can/Find-A-Can/blob/main/Documents/Front-End%20Environment%20Setup.md)
+
+You also need some setup for the back end to build properly. 
+[Follow our setup instructions here](https://github.com/Find-A-Can/Find-A-Can/blob/main/Documents/Back-End%20Setup.md)
 
 Next run the bash command `gradle test` in the Find-A-Can/ directory   
 This will install all packages and test both the front and back ends  
 Note that on some machines installing npm packages may take up to 15 minutes
+
+
 
 ## Running 
 
