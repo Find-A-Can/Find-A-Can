@@ -71,7 +71,9 @@ export class FACMap extends Component {
       true,
       true,
       true
-    );
+    ).then(() => {
+      this.onRegionChange(this.state.region)
+    });
   }
 
   /*
@@ -128,7 +130,7 @@ export class FACMap extends Component {
 
         <View style={{...styles.buttonContainer}}>
             <Button title="add" onPress={() => this.onAddCanPress()}/>
-            <Button title="search"/>
+            <Button title="filter"/>
         </View>
       </View>
     )
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-around'
   }
 });
 

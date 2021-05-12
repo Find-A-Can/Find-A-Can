@@ -1,7 +1,9 @@
 const queryDB = require('./queryDB.js')
+const putItem = require('./putItem');
 
 const express = require('express')
 const app = express()
+app.use(express.json());
 
 const port = 3000
 
@@ -17,32 +19,47 @@ app.get('/getTrashCansInArea', async (req, res) => {
     ':west': parseFloat(currQuery.WestLongitude)
   }
 
-  const data = await queryDB.query(condition, expression, projectionExpression)
+  queryDB.query(condition, expression, projectionExpression)
+    .then(result => {
+      return result.map(e => {
+        return {
+          type: 'Feature',
+          properties: {
+            isGarbage: e.IsGarbage,
+            isCompost: e.IsCompost,
+            isRecycling: e.IsRecycling
+          },
+          geometry: {
+            type: 'Point',
+            coordinates: [
+              e.Lat,
+              e.Lng
+            ]
+          }
+        }
+      })
+    }).then(result => {
+      res.json({
+        type: 'FeatureCollection',
+        features: result
+      }).status(200);
+    }).catch(big_fail => {
+      res.sendStatus(500);
+    })
+})
 
-  const output = data.map((e) => {
-    return {
-      type: 'Feature',
-      properties: {
-        isGarbage: e.IsGarbage,
-        isCompost: e.IsCompost,
-        isRecycling: e.IsRecycling
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [
-          e.Lat,
-          e.Lng
-        ]
-      }
-    }
-  })
+app.post('/addNewTrashCan', (req, res) => {
+  let {body} = req;
 
-  const geoJSON = {
-    type: 'FeatureCollection',
-    features: output
+  if (!body.latitude || !body.longitude || !body.isGarbage || !body.isCompost || !body.isRecycling) {
+    res.sendStatus(400);
   }
 
-  res.json(geoJSON)
+  const data = putItem.putItem('' + body.latitude, '' + body.longitude, body.isGarbage, body.isCompost, body.isRecycling)
+    .then((result, error) => {
+      if (error) res.sendStatus(500);
+      else res.send(result).status(200);
+    });
 })
 
 app.post('/update', (req, res) => {

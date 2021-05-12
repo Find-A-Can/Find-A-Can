@@ -10,6 +10,7 @@ function generateItem (lat, lng, isCompost, isGarbage, isRecycling) {
     }
   }
 }
+
 function putItem (lat, lng, isGarb, isCompost, isRecycling) {
   const AWS = require('aws-sdk')
   // Set the region
@@ -19,12 +20,12 @@ function putItem (lat, lng, isGarb, isCompost, isRecycling) {
   const ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' })
   const newItem = generateItem(lat, lng, isCompost, isGarb, isRecycling)
   // Call DynamoDB to add the item to the table
-  ddb.putItem(newItem, function (err, data) {
+  return ddb.putItem(newItem, function (err, data) {
     if (err) {
       console.log('Error', err)
     } else {
       console.log('Success', data)
     }
-  })
+  }).promise()
 }
-module.exports(putItem)
+module.exports = {putItem}

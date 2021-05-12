@@ -107,13 +107,13 @@ export function getDefaultData() {
  * @throws Error if the request takes more than MAXAPIWAITTIME ms 
  *  or the network request fails
  * 
- * @returns {String} message on success
+ * @returns {Promise} message on success
  */
-export async function addNewCan(
+export function addNewCan(
   latitude, longitude, isGarbage, isCompost, isRecycling) {
 
   // Makes POST request to server to add a new can
-  return await fetch(CONNECTIONURL + '/addNewTrashCan', {
+  return fetch(CONNECTIONURL + '/addNewTrashCan', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -136,8 +136,6 @@ export async function addNewCan(
   .then((json) => {
     console.log("Add new trash can succeeded");
     console.log(json);
-
-    return "added new can";
   })
   .catch((error) => {
     console.log("Add new trash can failed");
