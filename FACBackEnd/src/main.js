@@ -57,9 +57,9 @@ app.post('/addNewTrashCan', (req, res) => {
 
   putItem.putItem('' + body.latitude, '' + body.longitude, body.isGarbage, body.isCompost, body.isRecycling)
     .then((result, error) => {
-      if (error) res.sendStatus(500);
-      else res.send(result).status(200);
-  });
+      if (error) res.sendStatus(500)
+      else res.send(result).status(200)
+  })
 })
 
 app.post('/update', (req, res) => {
