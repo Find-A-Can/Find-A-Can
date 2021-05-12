@@ -59,7 +59,7 @@ app.post('/addNewTrashCan', (req, res) => {
     .then((result, error) => {
       if (error) res.sendStatus(500)
       else res.send(result).status(200)
-  })
+    })
 })
 
 app.post('/update', (req, res) => {
