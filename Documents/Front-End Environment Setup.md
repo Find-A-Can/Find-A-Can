@@ -102,7 +102,7 @@ If not make sure you have a static publically facing IP address where you're run
 ## After adding your API Key and Server URL
 Make sure you don't accidentally push your keys or server URL by running these two commands in a shell in `/Find-A-Can/`  
 
-`git update-index --assume-unchanged .\FACReact\App\ServerURL.json`
+`git update-index --assume-unchanged .\FACReact\App\ServerURL.json`  
 `git update-index --assume-unchanged .\FACReact\android\local.properties`  
 
 This will prevent accidentally adding these to a commit
@@ -123,6 +123,7 @@ Run `gradle run-android`
 This will compile the app and load it on all running Android devices.  
 It will push to both a virtual machine and physical device at the same time if both are connected
 
-In the Metro powershell, press `r` to push the app to the emulator
+In the Metro powershell, press `r` to push the app to your devices.  
+It will automatically do so when you edit and save any of the files in the `/FACReact/App/` folder
 
 Use the app!
