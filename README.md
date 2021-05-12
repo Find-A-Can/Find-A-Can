@@ -17,7 +17,6 @@ While there exists an app that does this, it has some shortcomings we’d like t
 Currently working use cases
 - Browse the map for local disposal locations
   - The map is updated live based off of the data stored in the back end as you stop panning
-    - Right now can types are not yet visually differentiated
 - Suggest a new can location
   - The + button on the app will send a request to the back end to add a marker
     - Currently adds a garbage can at the center of the screen. Will be updated in the future to add other types of cans
