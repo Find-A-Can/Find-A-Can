@@ -55,11 +55,11 @@ app.post('/addNewTrashCan', (req, res) => {
     res.sendStatus(400)
   }
 
-  const data = putItem.putItem('' + body.latitude, '' + body.longitude, body.isGarbage, body.isCompost, body.isRecycling)
+  putItem.putItem('' + body.latitude, '' + body.longitude, body.isGarbage, body.isCompost, body.isRecycling)
     .then((result, error) => {
       if (error) res.sendStatus(500);
       else res.send(result).status(200);
-    });
+  });
 })
 
 app.post('/update', (req, res) => {
