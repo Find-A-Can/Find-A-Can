@@ -85,16 +85,27 @@ Check your virtual devices in Android Studio
 - If you want to make a new device, hit "Create Virtual Device..." 
     - This device must also have the Play Store logo in order for the map to function
 
-## Add API Key
+## Google Maps API Key
 First, create a project and API Key  
-[https://developers.google.com/maps/documentation/android-api/signup#release-cert](https://developers.google.com/maps/documentation/android-api/signup#release-cert)
+[https://developers.google.com/maps/documentation/android-api/signup#release-cert](https://developers.google.com/maps/documentation/android-api/signup#release-cert)  
+Make sure to follow all steps on that page to enable Maps API for Android  
 
-Create a file `FACReact/android/local.properties`  
+Add your API key to `FACReact/android/local.properties`  
 The file's contents should just be  
 `MAPS_API_KEY=YOUR_API_KEY`
 
 ## Set test server URL
-Set the URL to your back end API endpoints in FACReact/App/ServerURL.json  
+Set the URL to your back end API endpoints in the file `FACReact/App/ServerURL.json `  
+If you're running locally, this will just be your computer's IP address  
+If not make sure you have a static publically facing IP address where you're running the API endpoints from
+
+## After adding your API Key and Server URL
+Make sure you don't accidentally push your keys or server URL by running these two commands in a shell in `/Find-A-Can/`  
+
+`git update-index --assume-unchanged .\FACReact\App\ServerURL.json`
+`git update-index --assume-unchanged .\FACReact\android\local.properties`  
+
+This will prevent accidentally adding these to a commit
 
 ## Running the app
 First enter a powershell or other shell window in the /FACReact/ directory
