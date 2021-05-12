@@ -44,3 +44,9 @@ Run `gradle run-android`
 This will compile and run the app on all connected virtual or physical Android devices
 
 ### Back end
+
+Open a shell in `FACBackend` and run
+
+ `docker build . -t facbackend_server && docker compose down && docker compose up`
+
+Now, the backend is running on a docker container on `localhost:8080`
