@@ -28,4 +28,4 @@ function putItem (lat, lng, isGarb, isCompost, isRecycling) {
     }
   }).promise()
 }
-module.exports = {putItem}
+module.exports = { putItem }
