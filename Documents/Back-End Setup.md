@@ -7,12 +7,16 @@ Set it up and get your API keys
 
 ## Add API Keys to back end
 
-In the `/FACBackend/` folder, add a new file `.env`.  
+In the `/FACBackend/` folder, edit the file `.env`.  
 Add your AWS Dynamo DB keys so the file looks exactly like this
 ```
 ACCESS_KEY=ACCESSKEYHERE
 SECRET_KEY=SECRETKEYHERE
 ```
+
+Open a shell in the `/Find-A-Can` folder and run the command
+`git update-index --assume-unchanged .\FACBackEnd\.env`  
+This will prevent you from accidentally adding an API key to a commit
 
 # Installs
 
