@@ -1,9 +1,9 @@
 const queryDB = require('./queryDB.js')
-const putItem = require('./putItem');
+const putItem = require('./putItem')
 
 const express = require('express')
 const app = express()
-app.use(express.json());
+app.use(express.json())
 
 const port = 3000
 
@@ -42,17 +42,17 @@ app.get('/getTrashCansInArea', async (req, res) => {
       res.json({
         type: 'FeatureCollection',
         features: result
-      }).status(200);
-    }).catch(big_fail => {
-      res.sendStatus(500);
+      }).status(200)
+    }).catch(() => {
+      res.sendStatus(500)
     })
 })
 
 app.post('/addNewTrashCan', (req, res) => {
-  let {body} = req;
+  const { body } = req
 
   if (!body.latitude || !body.longitude || !body.isGarbage || !body.isCompost || !body.isRecycling) {
-    res.sendStatus(400);
+    res.sendStatus(400)
   }
 
   const data = putItem.putItem('' + body.latitude, '' + body.longitude, body.isGarbage, body.isCompost, body.isRecycling)
