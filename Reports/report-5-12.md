@@ -64,6 +64,7 @@
 - Back end populated with new data from City of Seattle
 - Back end ready to deploy on AWS
     - Not finished, but able to run in cloud
+- Write more tests for backend code
 
 #### Aroosh Kumar
 - Back end populated with new data from City of Seattle
