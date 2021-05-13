@@ -69,6 +69,7 @@
 - Back end populated with new data from City of Seattle
 - Back end ready to deploy on AWS
     - Not finished, but able to run in cloud
+- Write more tests for the backend code, and make the tests runnable in the CI service
 
 #### Ryan Tannenberg
 - Users of the app can add different types of cans to the database
