@@ -125,7 +125,6 @@ export class FACMap extends Component {
         <CanMarkers
           locations={this.state.cachedData.features}
           />
-
         </MapView>
 
         <View style={{...styles.buttonContainer}}>
