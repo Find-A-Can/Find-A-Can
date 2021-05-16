@@ -7,6 +7,8 @@ import {
   StyleSheet,
   View,
   Button,
+  Switch,
+  Text
 } from 'react-native'
 
 
@@ -28,7 +30,10 @@ export class FACMap extends Component {
       longitude: -122.308035, 
       longitudeDelta: 0.74
     },
-    cachedData: getDefaultData()
+    cachedData: getDefaultData(),
+    showGarbage: true,
+    showRecycling: true,
+    showCompost: true
   }
 
   /**
@@ -124,13 +129,42 @@ export class FACMap extends Component {
 
         <CanMarkers
           locations={this.state.cachedData.features}
+          showGarbage={this.state.showGarbage}
+          showRecycling={this.state.showRecycling}
+          showCompost={this.state.showCompost}
           />
 
         </MapView>
 
         <View style={{...styles.buttonContainer}}>
             <Button title="add" onPress={() => this.onAddCanPress()}/>
-            <Button title="filter"/>
+            <View>
+              <Text>
+                {"Show Garbage"}
+              </Text>
+              <Switch
+                onValueChange={() => this.setState({showGarbage: !this.state.showGarbage})}
+                value={this.state.showGarbage}
+              />
+            </View>
+            <View>
+              <Text>
+                {"Show Recycling"}
+              </Text>
+              <Switch
+                onValueChange={() => this.setState({showRecycling: !this.state.showRecycling})}
+                value={this.state.showRecycling}
+              />
+            </View>
+            <View>
+              <Text>
+                {"Show Compost"}
+              </Text>
+              <Switch
+                onValueChange={() => this.setState({showCompost: !this.state.showCompost})}
+                value={this.state.showCompost}
+              />
+            </View>
         </View>
       </View>
     )

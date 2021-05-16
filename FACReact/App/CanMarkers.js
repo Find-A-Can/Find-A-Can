@@ -2,16 +2,30 @@ import React from 'react';
 import { Marker } from 'react-native-maps';
 
 function MarkCans(props) {
-  const {locations} = props;
+  const {
+    locations,
+    showGarbage,
+    showRecycling,
+    showCompost
+  } = props;
 
   return (locations) ? (
     locations.map((location) => {
       let color = 'red';
       if (location.properties.isGarbage) {
+        if (!showGarbage) {
+          return;
+        }
         color = 'tan'
       } else if (location.properties.isRecycling) {
+        if (!showRecycling) {
+          return;
+        }
         color = 'blue'
       } else if (location.properties.isCompost) {
+        if (!showCompost) {
+          return;
+        }
         color = 'green'
       }
 
