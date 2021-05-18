@@ -33,3 +33,8 @@ Found a trash can we don't have on our map? Hit the "Add" button to add it to ou
 ### Find nearest can
 Want the app to find the nearest can of a certain type for you? Hit the "Find" button and specify the type you're looking for. The app will automatically zoom in on it.  
 **Not yet implemented**
+
+## Reporting bugs
+If you have any issues, please open a [github issue](https://github.com/Find-A-Can/Find-A-Can/issues).  
+Your issue should be labeled Bug  
+Provide device name, Android version, and a full description of the issues found
