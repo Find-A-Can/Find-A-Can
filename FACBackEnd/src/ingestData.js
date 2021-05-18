@@ -17,11 +17,13 @@ function readFromCSV (relativePath) {
     .on('data', (row) => {
       putItem.putItem('' + row.LATITUDE, '' + row.LONGITUDE, Boolean(row.isGarbage), Boolean(row.isCompost), Boolean(row.isRecycling))
         .then((result, error) => {
+          // will log errors if there is a failure, and will log the return parameter from AWS DynamoDB
           if (error) console.log(error)
           else console.log(result)
         })
     })
     .on('end', () => {
+      // logs once the operation is finished
       console.log('finished')
     })
 }
