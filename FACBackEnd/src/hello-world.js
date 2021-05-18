@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-app.use(express.json())
 
 const port = 3000
 
@@ -74,9 +73,9 @@ app.get('/locations', (req, res) => {
   res.json(dummyData)
 })
 
-app.post('/addNewTrashCan', (req, res) => {
-  console.log(req.body)
-  res.send({ received: 'recieved!' })
+app.post('/update', (req, res) => {
+  console.log(req.query)
+  res.send('recieved!')
 })
 
 app.listen(port, () => console.log(`Hello world app is listening on port ${port}!`))

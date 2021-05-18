@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import MapView, { Geojson } from 'react-native-maps'
+import MapView from 'react-native-maps'
 import {addNewCan, getCans, getDefaultData} from './ServerInteract'
+import CanMarkers from './CanMarkers';
 import {
   PermissionsAndroid,
   StyleSheet,
@@ -23,13 +24,13 @@ export class FACMap extends Component {
   state = {
     region: {
       latitude: 47.656882, 
-      latitudeDelta: 0.013500, 
+      latitudeDelta: 0.74, 
       longitude: -122.308035, 
-      longitudeDelta: 0.010948
+      longitudeDelta: 0.74
     },
     cachedData: getDefaultData()
   }
-  
+
   /**
    * Takes a region when the region changes and calls to the ServerInteract 
    *  to find any cans in that region 
@@ -43,14 +44,19 @@ export class FACMap extends Component {
    */
   async onRegionChange(region) {
     this.setState({region: region});
-    if (!isGettingCans) {
+    // don't get or render any markers if user is zoomed out beyond 0.75 delta
+    if (region.latitudeDelta > 0.75 && region.longitudeDelta > 0.75) {
+      this.setState({cachedData: getDefaultData()});
+      isGettingCans = false;
+    } else if (!isGettingCans) {
       isGettingCans = true;
       try {
         let newCans = await getCans(region);
-        //console.log("new cans found " + JSON.stringify(newCans, null, 2));
-        this.setState({cachedData: newCans ?? getDefaultData()}, () => {
-          isGettingCans = false;
-        });
+        if (isGettingCans) {
+          this.setState({cachedData: newCans ?? getDefaultData()}, () => {
+            isGettingCans = false;
+          });
+        }
       } catch (err) {
         console.log("onRegionChange failed");
         isGettingCans = false;
@@ -65,7 +71,9 @@ export class FACMap extends Component {
       true,
       true,
       true
-    );
+    ).then(() => {
+      this.onRegionChange(this.state.region)
+    });
   }
 
   /*
@@ -114,14 +122,15 @@ export class FACMap extends Component {
         pitchEnabled={false}
         >
 
-        <Geojson 
-          geojson={this.state.cachedData}
-        />
+        <CanMarkers
+          locations={this.state.cachedData.features}
+          />
+
         </MapView>
 
         <View style={{...styles.buttonContainer}}>
             <Button title="add" onPress={() => this.onAddCanPress()}/>
-            <Button title="search"/>
+            <Button title="filter"/>
         </View>
       </View>
     )
@@ -139,7 +148,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-around'
   }
 });
 

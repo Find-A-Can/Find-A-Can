@@ -4,17 +4,17 @@
 
 // Max waiting time before giving up on an API request
 //  In ms so 1000 = 1 second
-const MAXAPIWAITTIME = 1 * 1000;
+const MAXAPIWAITTIME = 5 * 1000;
 
 // URL to server
 // TODO fill with amazon server URL
-const CONNECTIONURL = 'http://test:3000'
+const CONNECTIONURL = require("./ServerURL.json").serverURL;
 
 async function fetchWithTimeout(resource, options) {
   const controller = new window.AbortController();
   const id = setTimeout(() => controller.abort(), MAXAPIWAITTIME);
 
-  console.log(options);
+  //console.log(options);
 
   const response = await fetch(resource, {
     ...options,
@@ -54,12 +54,14 @@ export async function getCans(newRegion) {
   // as our map view doesn't scroll vertically past the poles, 
   //  we do not have to normalize Latitude
   eastLong = (eastLong % 360 + 540) % 360 - 180;
-  westLong = (eastLong % 360 + 540) % 360 - 180;
+  westLong = (westLong % 360 + 540) % 360 - 180;
  
   // Makes GET request to server using the points
+  console.log(CONNECTIONURL + '/getTrashCansInArea?' +
+  'NorthLatitude=' + northLat + '&EastLongitude=' + eastLong + 
+  '&SouthLatitude=' + southLat + '&WestLongitude=' + westLong);
 
-
-  return await fetchWithTimeout(CONNECTIONURL + '/locations?' +
+  return await fetchWithTimeout(CONNECTIONURL + '/getTrashCansInArea?' +
   'NorthLatitude=' + northLat + '&EastLongitude=' + eastLong + 
   '&SouthLatitude=' + southLat + '&WestLongitude=' + westLong, {
     method: 'GET',
@@ -67,8 +69,12 @@ export async function getCans(newRegion) {
       Accept: 'application/json'
     }
   })
-  .then((response) => response.json())
-  .then((json) => {
+  .then((response) => {
+    if (response.status != 200) {
+      throw new Error('Bad response code: ' + response.status + ' is not 200 OK');
+    }
+    return response.json();
+  })  .then((json) => {
     console.log("GET trash cans in an area succeeded");
     return json;
   })
@@ -101,13 +107,13 @@ export function getDefaultData() {
  * @throws Error if the request takes more than MAXAPIWAITTIME ms 
  *  or the network request fails
  * 
- * @returns {String} message on success
+ * @returns {Promise} message on success
  */
-export async function addNewCan(
+export function addNewCan(
   latitude, longitude, isGarbage, isCompost, isRecycling) {
 
   // Makes POST request to server to add a new can
-  return await fetch(CONNECTIONURL + '/addNewTrashCan', {
+  return fetch(CONNECTIONURL + '/addNewTrashCan', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -121,12 +127,15 @@ export async function addNewCan(
       isRecycling: isRecycling,
     })
   })
-  .then((response) => response.json())
+  .then((response) => {
+    if (response.status != 200) {
+      throw new Error('Bad response code: ' + response.status + ' is not 200 OK');
+    }
+    return response.json();
+  })
   .then((json) => {
     console.log("Add new trash can succeeded");
     console.log(json);
-
-    return "added new can";
   })
   .catch((error) => {
     console.log("Add new trash can failed");
