@@ -28,8 +28,4 @@ function putItem (lat, lng, isGarb, isCompost, isRecycling) {
     }
   }).promise()
 }
-<<<<<<< HEAD
-module.exports = putItem
-=======
 module.exports = { putItem }
->>>>>>> origin
