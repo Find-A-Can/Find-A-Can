@@ -49,5 +49,3 @@ Starting in the directory of ```FACBackend```, run
 
 Now, the backend is running on a docker container on `localhost:8080`
 
-# How to Add New Tests
-When naming test files, name it after the file you are testing such as `filename.test.js` in the `FACBackend/test` folder. Each test must pass our jest rules that is described in our `.eslintrc.json` in order to be qualified as a valid test and won't compile if violated.
