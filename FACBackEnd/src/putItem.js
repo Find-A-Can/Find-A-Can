@@ -10,7 +10,8 @@ function generateItem (lat, lng, isCompost, isGarbage, isRecycling) {
     }
   }
 }
-
+// Inserts an item into the Location Table
+// https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/dynamodb-example-table-read-write.html
 function putItem (lat, lng, isGarb, isCompost, isRecycling) {
   const AWS = require('aws-sdk')
   // Set the region
