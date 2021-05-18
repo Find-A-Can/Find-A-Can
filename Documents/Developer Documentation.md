@@ -2,10 +2,10 @@
 Clone this git repository 
 
 # Layout of the Directory
-Documents: project specs, backend and frontend specs, installation and deployment guides
-Reports: reports to our project manager
-FACReact: React Native source code
-FACBackEnd: back end code running our can location database
+Documents: project specs, backend and frontend specs, installation and deployment guides  
+Reports: reports to our project manager  
+FACReact: React Native source code  
+FACBackEnd: back end code running our can location database  
 
 # How to Build the Software
 
