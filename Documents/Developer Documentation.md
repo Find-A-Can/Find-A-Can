@@ -1,5 +1,5 @@
 # How to Obtain the Source Code
-Clone this git repository 
+Clone this git repository https://github.com/Find-A-Can/Find-A-Can
 
 # Layout of the Directory
 Documents: project specs, backend and frontend specs, installation and deployment guides  
