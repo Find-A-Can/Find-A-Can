@@ -1,5 +1,5 @@
 # How to Obtain the Source Code
-Clone this git repository https://github.com/Find-A-Can/Find-A-Can
+Clone this git repository 
 
 # Layout of the Directory
 Documents: project specs, backend and frontend specs, installation and deployment guides  
@@ -64,6 +64,6 @@ Now, the backend is running on a docker container on `localhost:8080`
 Use the command `gradle test` at the top level directory to run the tests for both the frontend and backend
 
 # How to Add New Tests
-When naming test files, name it after the file you are testing such as `filename.test.js` in the `FACBackend/test` folder. Each test must pass our jest rules that is described in our `.eslintrc.json` in order to be qualified as a valid test and won't compile if violated.
+When naming test files, name it after the file you are testing such as `filename.test.js` in the `FACBackend/test` or `FACReact/__tests__/` folder. Each test must pass our jest rules that is described in our `.eslintrc.json` in order to be qualified as a valid test and won't compile if violated.
 
 # How to Build a Release of the Software
