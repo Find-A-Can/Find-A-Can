@@ -29,20 +29,20 @@ Open a shell in the `/Find-A-Can` folder and run the command
 `git update-index --assume-unchanged .\FACBackEnd\.env`  
 This will prevent you from accidentally adding an API key to a commit
 
-# Installs
+## Installs
 
-## Docker 
+### Docker 
 Install Docker [https://docs.docker.com/docker-for-windows/install/](https://docs.docker.com/docker-for-windows/install/)  
 Ensure you have WSL 2 installed as described in the install instructions
 
-## Gradle 
+### Gradle 
 Download a gradle binary  
 [https://gradle.org/install/](https://gradle.org/install/)
 
 Extract the .zip file into `C:/Gradle/gradle-{gradle version}/`  
 For example the newest version and newest install would be `C:/Gradle/gradle-7.0.1/`  
 
-### Add Gradle to path variable
+#### Add Gradle to path variable
 1. In windows search, go to "edit environment variables for your account"
 2. Click "Environment Variables..." on the bottom right
 3. Click on the user variable "Path" and hit "Edit..."
@@ -53,7 +53,7 @@ For example the newest version and newest install would be `C:/Gradle/gradle-7.0
 Finally check your gradle by opening a shell and typing `gradle -v`  
 It should report back your gradle version if installed correctly
 
-# Build and run Docker Container
+## Build and run Docker Container
 Starting in the directory of ```FACBackend```, run
 
  `docker build . -t facbackend_server && docker compose down && docker compose up`
