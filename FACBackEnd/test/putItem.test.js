@@ -18,9 +18,9 @@ test('should insert item into table', async () => {
   await ddb
     .put({ TableName: 'Locations', Item: { Lat: 40, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
     .promise()
-// Retrieves the item from dummy database
+  // Retrieves the item from dummy database
   const { Item } = await ddb.get({ TableName: 'Locations', Key: { Lat: 40, Lng: 40 } }).promise()
-//Checks if item is equivalent to what we expect
+  // Checks if item is equivalent to what we expect
   expect(Item).toEqual({
     Lat: 40,
     Lng: 40,
