@@ -48,3 +48,6 @@ Starting in the directory of ```FACBackend```, run
  `docker build . -t facbackend_server && docker compose down && docker compose up`
 
 Now, the backend is running on a docker container on `localhost:8080`
+
+# How to Add New Tests
+When naming test files, name it after the file you are testing such as "filename.test.js" in the FACBackend/test folder. Each test must pass our jest dependencies in order to be qualified as a valid test and won't compile if violated.
