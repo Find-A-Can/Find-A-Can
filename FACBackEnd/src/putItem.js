@@ -27,4 +27,4 @@ function putItem (lat, lng, isGarb, isCompost, isRecycling) {
     }
   })
 }
-module.exports(putItem)
+module.exports = putItem
