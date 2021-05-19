@@ -4,26 +4,11 @@ import { Marker } from 'react-native-maps';
 function MarkCans(props) {
   const {
     locations,
-    showGarbage,
-    showRecycling,
-    showCompost
+    color
   } = props;
 
   return (locations) ? (
-    locations.filter(location => {
-      if (showGarbage) return location.properties.isGarbage;
-      else if (showRecycling) return location.properties.isRecycling;
-      else if (showCompost) return location.properties.isCompost;
-    }).map((location) => {
-      let color = 'red';
-      if (showGarbage) {
-        color = 'tan'
-      } else if (showRecycling) {
-        color = 'blue'
-      } else if (showCompost) {
-        color = 'green'
-      }
-
+    locations.map((location) => {
       return <Marker
       key={location.geometry.coordinates + color}
       coordinate={{

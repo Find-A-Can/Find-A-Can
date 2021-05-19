@@ -132,10 +132,12 @@ export class FACMap extends Component {
         >
 
         <CanMarkers
-          locations={this.state.cachedData.features}
-          showGarbage={this.state.showGarbage}
-          showRecycling={this.state.showRecycling}
-          showCompost={this.state.showCompost}
+          locations={this.state.cachedData.features.filter(location => {
+            if (this.state.showGarbage) return location.properties.isGarbage;
+            else if (this.state.showRecycling) return location.properties.isRecycling;
+            else if (this.state.showCompost) return location.properties.isCompost;
+          })}
+          color={this.state.customSearch ? 'purple' : this.state.showGarbage ? 'tan' : this.state.showRecycling ? 'blue' : this.state.showCompost ? 'green' : 'red'}
           />
 
         </MapView>
