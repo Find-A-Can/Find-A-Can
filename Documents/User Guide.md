@@ -8,13 +8,16 @@ Find A Can lets you find nearby trash cans on your phone! It's so much easier to
 
 ## How to install 
 
-Download the .apk file from releases to your phone **No release APK yet**  
-Open the .apk on your phone. You will have a popup warning you about loading an unknown app. You will need to enable installation for just this app.  
+Download the .apk file from the latest release to your phone [https://github.com/Find-A-Can/Find-A-Can/releases](https://github.com/Find-A-Can/Find-A-Can/releases) 
+Open the .apk on your phone.  
+Android will ask you if you want to install the application  
+Hit install and wait a few seconds
 
 This will eventually be replaced with a Google Play download link
 
 ## Running the App
-Simply open the app like any other from your app drawer or home screen
+Simply open the app like any other from your app drawer or home screen  
+Make sure location services are on to use the app to its full potential
 
 ## Using Find A Can
 
