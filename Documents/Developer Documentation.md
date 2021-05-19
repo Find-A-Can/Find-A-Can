@@ -67,3 +67,27 @@ Use the command `gradle test` at the top level directory to run the tests for bo
 When naming test files, name it after the file you are testing such as `filename.test.js` in the `FACBackend/test` or `FACReact/__tests__/` folder. Each test must pass our jest rules that is described in our `.eslintrc.json` in order to be qualified as a valid test and won't compile if violated.
 
 # How to Build a Release of the Software
+
+First follow the first steps of this guide "Generating an upload key" [https://reactnative.dev/docs/signed-apk-android](https://reactnative.dev/docs/signed-apk-android)
+
+In your `FACReact/android/gradle.properties` add these lines
+
+```
+MYAPP_UPLOAD_STORE_FILE=my-upload-key.keystore
+MYAPP_UPLOAD_KEY_ALIAS=my-key-alias
+MYAPP_UPLOAD_STORE_PASSWORD=$MYAPP_UPLOAD_STORE_PASSWORD
+MYAPP_UPLOAD_KEY_PASSWORD=$MYAPP_UPLOAD_KEY_PASSWORD
+```
+
+Declare the values of your password in `FACReact/android/local.properties`  
+Both passwords will be the same, and will be the password you set while generating the keystore 
+```
+MYAPP_UPLOAD_STORE_PASSWORD=passwordhere
+MYAPP_UPLOAD_KEY_PASSWORD=passwordhere
+```
+
+If you want to immediately load and test a release build, connect your virtual or physical Android devices now. 
+
+In a shell in `/FACReact/` run `npx react-native run-android --variant=release`. This will generate a .apk file for the app in `FACReact/android/app/build/outputs/apk/release`. This .apk can be sent and used on your choice of android device. 
+
+
