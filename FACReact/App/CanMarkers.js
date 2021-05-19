@@ -10,27 +10,22 @@ function MarkCans(props) {
   } = props;
 
   return (locations) ? (
-    locations.map((location) => {
+    locations.filter(location => {
+      if (showGarbage) return location.properties.isGarbage;
+      else if (showRecycling) return location.properties.isRecycling;
+      else if (showCompost) return location.properties.isCompost;
+    }).map((location) => {
       let color = 'red';
-      if (location.properties.isGarbage) {
-        if (!showGarbage) {
-          return;
-        }
+      if (showGarbage) {
         color = 'tan'
-      } else if (location.properties.isRecycling) {
-        if (!showRecycling) {
-          return;
-        }
+      } else if (showRecycling) {
         color = 'blue'
-      } else if (location.properties.isCompost) {
-        if (!showCompost) {
-          return;
-        }
+      } else if (showCompost) {
         color = 'green'
       }
 
       return <Marker
-      key={location.geometry.coordinates}
+      key={location.geometry.coordinates + color}
       coordinate={{
         latitude: location.geometry.coordinates[0],
         longitude: location.geometry.coordinates[1]

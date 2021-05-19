@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import MapView from 'react-native-maps'
 import {addNewCan, getCans, getDefaultData} from './ServerInteract'
 import CanMarkers from './CanMarkers';
+import { RadioButtons } from './RadioButtons.android'
 import {
   PermissionsAndroid,
   StyleSheet,
   View,
   Button,
-  Switch,
   Text
 } from 'react-native'
 
@@ -81,6 +81,10 @@ export class FACMap extends Component {
     });
   }
 
+  onRadioButtonsUpdate(id) {
+    this.setState({showGarbage: id === 1, showRecycling: id === 2, showCompost: id === 3});
+  }
+
   /*
     Renders the map
   */
@@ -136,35 +140,19 @@ export class FACMap extends Component {
 
         </MapView>
 
-        <View style={{...styles.buttonContainer}}>
-            <Button title="add" onPress={() => this.onAddCanPress()}/>
-            <View>
-              <Text>
-                {"Show Garbage"}
-              </Text>
-              <Switch
-                onValueChange={() => this.setState({showGarbage: !this.state.showGarbage})}
-                value={this.state.showGarbage}
-              />
-            </View>
-            <View>
-              <Text>
-                {"Show Recycling"}
-              </Text>
-              <Switch
-                onValueChange={() => this.setState({showRecycling: !this.state.showRecycling})}
-                value={this.state.showRecycling}
-              />
-            </View>
-            <View>
-              <Text>
-                {"Show Compost"}
-              </Text>
-              <Switch
-                onValueChange={() => this.setState({showCompost: !this.state.showCompost})}
-                value={this.state.showCompost}
-              />
-            </View>
+        <View style={{...styles.bottomContainer}}>
+          <Text style={{...styles.centeredText}}>{"Containers"}</Text>
+          <View style={{...styles.bottomSubContainer}}>
+            <RadioButtons
+              initialValue={1}
+              options={[
+                { id: 1, title: 'Garbage' },
+                { id: 2, title: 'Recycling' },
+                { id: 3, title: 'Compost' }
+              ]}
+              update={this.onRadioButtonsUpdate.bind(this)}/>
+          </View>
+            <Button title="Add New Container" onPress={() => this.onAddCanPress()}/>
         </View>
       </View>
     )
@@ -180,10 +168,20 @@ const styles = StyleSheet.create({
   map: {
     flex:1
   },
-  buttonContainer: {
-    flexDirection: 'row',
+  bottomContainer: {
+    flexDirection: 'column',
     justifyContent: 'space-around'
-  }
+  },
+  bottomSubContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    minHeight: 45
+  },
+  centeredText: {
+    textAlign: 'center',
+    textDecorationLine: 'underline'
+  },
 });
 
 // Style for the Google map
