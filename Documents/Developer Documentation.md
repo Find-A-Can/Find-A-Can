@@ -70,6 +70,8 @@ When naming test files, name it after the file you are testing such as `filename
 
 First follow the first steps of this guide "Generating an upload key" [https://reactnative.dev/docs/signed-apk-android](https://reactnative.dev/docs/signed-apk-android)
 
+Place the new `my-upload-key.keystore` file in `FACReact/android/app/`
+
 In your `FACReact/android/gradle.properties` add these lines
 
 ```
