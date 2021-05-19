@@ -21,6 +21,14 @@ Currently working use cases
   - The + button on the app will send a request to the back end to add a marker
     - Currently adds a garbage can at the center of the screen. Will be updated in the future to add other types of cans
 
+## Want to run the app?
+
+[Check our user guide for instructions!](https://github.com/Find-A-Can/Find-A-Can/blob/main/Documents/User%20Guide.md)
+
+## Want to contribute to the app?
+
+[Check our developer guide here!](https://github.com/Find-A-Can/Find-A-Can/blob/main/Documents/Developer%20Documentation.md)
+
 ## Building 
 
 First you need to prepare your computer and physical or virtual Android devices to build React Native apps
@@ -55,3 +63,5 @@ Open a shell in `FACBackend` and run
  `docker build . -t facbackend_server && docker compose down && docker compose up`
 
 Now, the backend is running on a docker container on `localhost:8080`
+
+
