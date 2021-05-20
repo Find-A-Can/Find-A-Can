@@ -246,11 +246,11 @@ export class FACMap extends Component {
                   this.toggleFilterModal(!this.state.filterModalVisible);
                   // construct search message to be displayed to user
                   let newSearchMessage = [
-                    {value: this.state.modalGarbage, text: 'garbage'},
-                    {value: this.state.modalRecycling, text: 'recycling'},
-                    {value: this.state.modalCompost, text: 'compost'}
+                    {value: this.state.modalGarbage, text: 'Garbage'},
+                    {value: this.state.modalRecycling, text: 'Recycling'},
+                    {value: this.state.modalCompost, text: 'Compost'}
                   ].filter(item => item.value).map(item => item.text).join(', ');
-                  this.setState({customSearch: true, searchMessage: newSearchMessage.charAt(0).toUpperCase() + newSearchMessage.slice(1)});
+                  this.setState({customSearch: true, searchMessage: newSearchMessage});
                 }}></Button>
               </View>
             </View>
