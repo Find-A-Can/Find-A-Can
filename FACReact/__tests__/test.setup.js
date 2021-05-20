@@ -1,5 +1,7 @@
 import React from 'react';
 
+jest.useFakeTimers();
+
 jest.mock('react-native-maps', () => {
     const { View } = require('react-native');
     const MockMapView = (props: any) => {
