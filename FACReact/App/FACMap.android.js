@@ -88,11 +88,23 @@ export class FACMap extends Component {
     });
   }
 
+  /**
+   * Called by RadioButtons component when selection changes
+   * @param {Number} id id of newly selected RadioButton
+   *
+   * @modifies State's display settings are updated
+   */
   onRadioButtonsUpdate(id) {
     this.setState({showGarbage: id === 1, showRecycling: id === 2, showCompost: id === 3});
   }
 
-  toggleFilterModal(visible) {
+  /**
+   * Sets the visibility status of the filter modal
+   * @param {Boolean} visible desired filter modal visibility status
+   *
+   * @modifies State's filterModalVisible is updated with new value
+   */
+  setFilterModalVisible(visible) {
     this.setState({ filterModalVisible: visible });
   }
 
@@ -185,13 +197,13 @@ export class FACMap extends Component {
             {this.state.customSearch ?
               // filter text will display when custom search is active
               <View style={styles.customSearchMessage}>
-                <Text>Filters:</Text>
+                <Text>Active Filters:</Text>
                 <Text>{this.state.searchMessage.length == 0 ? 'no filters selected' : this.state.searchMessage}</Text>
               </View>
             : null}
 
             <View style={this.state.customSearch ? styles.customSearchControls : null /* only use flex styling when custom search is active */}>
-              <Button title={this.state.customSearch ? "modify" : "custom"} onPress={() => {this.toggleFilterModal(true)}}></Button>
+              <Button title={this.state.customSearch ? "modify" : "custom"} onPress={() => {this.setFilterModalVisible(true)}}></Button>
               {this.state.customSearch ?
                 <Button title="clear" onPress={() => {this.setState({modalGarbage: false, modalRecycling: false, modalCompost: false, customSearch: false})}}></Button>
               : null}
@@ -206,7 +218,7 @@ export class FACMap extends Component {
           transparent={true}
           visible={this.state.filterModalVisible}
           onRequestClose={() => {
-            this.toggleFilterModal(!this.state.filterModalVisible);
+            this.setFilterModalVisible(!this.state.filterModalVisible);
           }}
         >
           <View style={styles.modalContainer}>
@@ -241,9 +253,9 @@ export class FACMap extends Component {
               </View>
 
               <View style={[styles.modalRowContainer, styles.modalControlContainer]}>
-                <Button title="cancel" onPress={() => {this.toggleFilterModal(!this.state.filterModalVisible)}}></Button>
+                <Button title="cancel" onPress={() => {this.setFilterModalVisible(!this.state.filterModalVisible)}}></Button>
                 <Button title="apply" onPress={() => {
-                  this.toggleFilterModal(!this.state.filterModalVisible);
+                  this.setFilterModalVisible(!this.state.filterModalVisible);
                   // construct search message to be displayed to user
                   let newSearchMessage = [
                     {value: this.state.modalGarbage, text: 'Garbage'},
