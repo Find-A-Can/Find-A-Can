@@ -2,13 +2,16 @@ import React, { Component } from 'react'
 import MapView from 'react-native-maps'
 import {addNewCan, getCans, getDefaultData} from './ServerInteract'
 import CanMarkers from './CanMarkers';
+import { RadioButtons } from './RadioButtons.android'
 import {
   PermissionsAndroid,
   StyleSheet,
   View,
   Button,
+  Text,
+  Modal
 } from 'react-native'
-
+import CheckBox from '@react-native-community/checkbox';
 
 var isGettingCans = false;
 
@@ -28,7 +31,16 @@ export class FACMap extends Component {
       longitude: -122.308035, 
       longitudeDelta: 0.74
     },
-    cachedData: getDefaultData()
+    cachedData: getDefaultData(),
+    showGarbage: true,
+    showRecycling: true,
+    showCompost: true,
+    filterModalVisible: false,
+    modalGarbage: false,
+    modalRecycling: false,
+    modalCompost: false,
+    customSearch: false,
+    searchMessage: ''
   }
 
   /**
@@ -74,6 +86,26 @@ export class FACMap extends Component {
     ).then(() => {
       this.onRegionChange(this.state.region)
     });
+  }
+
+  /**
+   * Called by RadioButtons component when selection changes
+   * @param {Number} id id of newly selected RadioButton
+   *
+   * @modifies State's display settings are updated
+   */
+  onRadioButtonsUpdate(id) {
+    this.setState({showGarbage: id === 1, showRecycling: id === 2, showCompost: id === 3});
+  }
+
+  /**
+   * Sets the visibility status of the filter modal
+   * @param {Boolean} visible desired filter modal visibility status
+   *
+   * @modifies State's filterModalVisible is updated with new value
+   */
+  setFilterModalVisible(visible) {
+    this.setState({ filterModalVisible: visible });
   }
 
   /*
@@ -123,18 +155,126 @@ export class FACMap extends Component {
         >
 
         <CanMarkers
-          locations={this.state.cachedData.features}
+          // filter locations before they are provided to the marker handler
+          // display no locations when the modal is open
+          locations={this.state.filterModalVisible ? null : this.state.cachedData.features.filter(location => {
+            if (this.state.customSearch) {
+              if (this.state.modalGarbage && !location.properties.isGarbage) return false;
+              if (this.state.modalRecycling && !location.properties.isRecycling) return false;
+              if (this.state.modalCompost && !location.properties.isCompost) return false;
+
+              // if no filters are selected, return nothing
+              if (!this.state.modalGarbage && !this.state.modalRecycling && !this.state.modalCompost) return false;
+
+              return true;
+            } else {
+              if (this.state.showGarbage) return location.properties.isGarbage;
+              else if (this.state.showRecycling) return location.properties.isRecycling;
+              else if (this.state.showCompost) return location.properties.isCompost;
+            }
+          })}
+          // determine color and provide it to marker handler
+          color={this.state.customSearch ? 'purple' : this.state.showGarbage ? 'tan' : this.state.showRecycling ? 'blue' : this.state.showCompost ? 'green' : 'red'}
           />
         </MapView>
 
-        <View style={{...styles.buttonContainer}}>
-            <Button title="add" onPress={() => this.onAddCanPress()}/>
-            <Button title="filter"/>
+        <View style={{...styles.bottomContainer}}>
+          <Text style={{...styles.centeredText}}>{"Containers"}</Text>
+          <View style={{...styles.bottomSubContainer}}>
+            {!this.state.customSearch ?
+                // radiobuttons will not display if custom search is active
+                <RadioButtons
+                  initialValue={1}
+                  options={[
+                    { id: 1, title: 'Garbage' },
+                    { id: 2, title: 'Recycling' },
+                    { id: 3, title: 'Compost' }
+                  ]}
+                  update={this.onRadioButtonsUpdate.bind(this)}/>
+            : null}
+
+            {this.state.customSearch ?
+              // filter text will display when custom search is active
+              <View style={styles.customSearchMessage}>
+                <Text>Active Filters:</Text>
+                <Text>{this.state.searchMessage.length == 0 ? 'no filters selected' : this.state.searchMessage}</Text>
+              </View>
+            : null}
+
+            <View style={this.state.customSearch ? styles.customSearchControls : null /* only use flex styling when custom search is active */}>
+              <Button title={this.state.customSearch ? "modify" : "custom"} onPress={() => {this.setFilterModalVisible(true)}}></Button>
+              {this.state.customSearch ?
+                <Button title="clear" onPress={() => {this.setState({modalGarbage: false, modalRecycling: false, modalCompost: false, customSearch: false})}}></Button>
+              : null}
+            </View>
+
+          </View>
+            <Button title="Add New Container" onPress={() => this.onAddCanPress()}/>
         </View>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.filterModalVisible}
+          onRequestClose={() => {
+            this.setFilterModalVisible(!this.state.filterModalVisible);
+          }}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalView}>
+              <View style={styles.modalTitleArea}>
+                <Text style={styles.centeredText}>Filter Containers</Text>
+                <Text>Select desired properties and then press &apos;Apply&apos;. The map will then show locations which match all desired properties.</Text>
+              </View>
+
+              <View style={[styles.modalRowContainer, styles.modalCheckBoxRow]}>
+                <Text>{"Garbage"}</Text>
+                <CheckBox
+                  value={this.state.modalGarbage}
+                  onValueChange={() => this.setState({modalGarbage: !this.state.modalGarbage})}
+                />
+              </View>
+
+              <View style={[styles.modalRowContainer, styles.modalCheckBoxRow]}>
+                <Text>{"Recycling"}</Text>
+                <CheckBox
+                  value={this.state.modalRecycling}
+                  onValueChange={() => this.setState({modalRecycling: !this.state.modalRecycling})}
+                />
+              </View>
+
+              <View style={[styles.modalRowContainer, styles.modalCheckBoxRow]}>
+                <Text>{"Compost"}</Text>
+                <CheckBox
+                  value={this.state.modalCompost}
+                  onValueChange={() => this.setState({modalCompost: !this.state.modalCompost})}
+                />
+              </View>
+
+              <View style={[styles.modalRowContainer, styles.modalControlContainer]}>
+                <Button title="cancel" onPress={() => {this.setFilterModalVisible(!this.state.filterModalVisible)}}></Button>
+                <Button title="apply" onPress={() => {
+                  this.setFilterModalVisible(!this.state.filterModalVisible);
+                  // construct search message to be displayed to user
+                  let newSearchMessage = [
+                    {value: this.state.modalGarbage, text: 'Garbage'},
+                    {value: this.state.modalRecycling, text: 'Recycling'},
+                    {value: this.state.modalCompost, text: 'Compost'}
+                  ].filter(item => item.value).map(item => item.text).join(', ');
+                  this.setState({customSearch: true, searchMessage: newSearchMessage});
+                }}></Button>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     )
   }
 }
+
+// color variables
+const colorWhite = '#fff';
+const colorBlack = '#000'
 
 // Contains React styles for any componenents
 const styles = StyleSheet.create({
@@ -145,8 +285,62 @@ const styles = StyleSheet.create({
   map: {
     flex:1
   },
-  buttonContainer: {
+  bottomContainer: {
+    flexDirection: 'column',
+    justifyContent: 'space-around'
+  },
+  bottomSubContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    minHeight: 45
+  },
+  centeredText: {
+    textAlign: 'center',
+    textDecorationLine: 'underline'
+  },
+  customSearchMessage: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  customSearchControls: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around'
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    minWidth: 250,
+    backgroundColor: colorWhite,
+    borderRadius: 10,
+    padding: 30,
+    shadowColor: colorBlack,
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modalTitleArea: {
+    marginBottom: 25
+  },
+  modalRowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  modalCheckBoxRow: {
+    justifyContent: 'center'
+  },
+  modalControlContainer: {
+    marginTop: 25,
     justifyContent: 'space-around'
   }
 });

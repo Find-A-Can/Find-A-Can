@@ -11,6 +11,7 @@
     "lintfix": "eslint ./App/ --fix"
   },
   "dependencies": {
+    "@react-native-community/checkbox": "^0.5.7",
     "eslint-plugin-react-native": "^3.10.0",
     "react": "17.0.1",
     "react-native": "0.64.0",
