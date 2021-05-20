@@ -11,8 +11,13 @@
   },
   "author": "",
   "license": "ISC",
+  "jest": {
+    "preset": "@shelf/jest-dynamodb"
+  },
   "dependencies": {
-    "aws-sdk": "^2.903.0",
+    "@aws-sdk/client-dynamodb": "^3.16.0",
+    "@shelf/jest-dynamodb": "^1.8.1",
+    "aws-sdk": "^2.908.0",
     "csv-parser": "^3.0.0",
     "express": "^4.17.1",
     "nodemon": "^2.0.7"
