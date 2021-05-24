@@ -9,13 +9,13 @@ function generateGetItem (lat, lng) {
   }
 }
 
-function getItem (lat, lng) {
+function getItem (config, lat, lng) {
   const AWS = require('aws-sdk')
   // Set the region
   AWS.config.update({ region: 'us-west-2' })
 
   // Create the DynamoDB service object
-  const ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' })
+  const ddb = new AWS.DynamoDB(config)
   const getItem = generateGetItem(lat, lng)
   // Call DynamoDB to read the item from the table
   ddb.getItem(getItem, function (err, data) {

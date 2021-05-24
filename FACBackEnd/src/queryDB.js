@@ -1,10 +1,10 @@
 const AWS = require('aws-sdk')
 
-async function query (filterExpr, exprAttributeVal, projExpr) {
+async function query (config, filterExpr, exprAttributeVal, projExpr) {
   // Set the region
   AWS.config.update({ region: 'us-west-2' })
   // Create DynamoDB service object
-  const ddb = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10' })
+  const ddb = new AWS.DynamoDB.DocumentClient(config)
 
   const params = {
     // Specify which items in the results are returned.
