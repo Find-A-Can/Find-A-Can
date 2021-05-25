@@ -19,7 +19,7 @@ app.get('/getTrashCansInArea', async (req, res) => {
     ':west': parseFloat(currQuery.WestLongitude)
   }
 
-  config = { region: 'us-west-2' }
+  const config = { region: 'us-west-2' }
 
   queryDB.query(config, condition, expression, projectionExpression)
     .then(result => {

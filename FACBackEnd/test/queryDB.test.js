@@ -22,6 +22,6 @@ test('query result should be nothing', async () => {
   }
   expect.hasAssertions()
   const Items = await queryDB.query(config, condition, expression, projectionExpression)
-  var expected = []
+  const expected = []
   expect(Items).toStrictEqual(expected)
 })
