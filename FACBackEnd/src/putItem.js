@@ -1,3 +1,14 @@
+/**
+* Returns a json object with given lat, lng, isCompost, isGarbage, isRecycling
+*
+*
+* @param  lat string representation of desired latitude of can location
+* @param lng string represntation of desired longitude of can location
+* @param isGarb boolean value representing if given can location allows garbage waste
+* @param isCompost boolean value representing if given can location allows compost waste
+* @param isRecycling boolean value representing if given can location allows recylcing waste
+* @return      json object with given lat, lng, isCompost, isGarbage, isRecycling
+*/
 function generateItem (lat, lng, isCompost, isGarbage, isRecycling) {
   return {
     TableName: 'Locations',
@@ -10,8 +21,19 @@ function generateItem (lat, lng, isCompost, isGarbage, isRecycling) {
     }
   }
 }
-// Inserts an item into the Location Table
-// https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/dynamodb-example-table-read-write.html
+/**
+* Returns response from database after insertion of item. HTTP 200 response on success, HTTP 400 otherwise.
+* Prints Success on success of inserting item, prints error otherwise
+* https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/dynamodb-example-table-read-write.html
+
+* @param  lat string representation of desired latitude of can location
+* @param lng string represntation of desired longitude of can location
+* @param isGarb boolean value representing if given can location allows garbage waste
+* @param isCompost boolean value representing if given can location allows compost waste
+* @param isRecycling boolean value representing if given can location allows recylcing waste
+* @param  config configuration for which database to connect to
+* @return      response to the putItem action into the database. On success, returns HTTP 200, HTTP 400 otherwise
+*/
 function putItem (lat, lng, isGarb, isCompost, isRecycling, config = { region: 'us-west-2' }) {
   const AWS = require('aws-sdk')
   // Set the region
