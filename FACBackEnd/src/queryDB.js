@@ -29,7 +29,7 @@ async function query (config, filterExpr, exprAttributeVal, projExpr) {
     if (err) {
       console.log('Error', err)
     } else {
-      console.log('Received ' + String(data.Count) + ' points')
+      // console.log('Received ' + String(data.Count) + ' points')
     }
   }).promise()
 
