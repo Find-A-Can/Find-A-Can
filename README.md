@@ -64,4 +64,9 @@ Open a shell in `FACBackend` and run
 
 Now, the backend is running on a docker container on `localhost:8080`
 
-
+## Bug Reports
+We use [Github Issues](https://guides.github.com/features/issues/) for all of our bug and feature tracking.
+If you find a bug that is not present in our issue tracker, please do the following steps:
+- Create a new issue in the Github Issues tab
+- The issue should have a descriptive title along with steps on how to reproduce the bug and/or evidence of the bug
+We regularly look at our present issues, so any bug reported will be resolved as soon as we can get to it
