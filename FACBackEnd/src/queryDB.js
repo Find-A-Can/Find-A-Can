@@ -10,9 +10,9 @@ const AWS = require('aws-sdk')
 * @return      Returns requested items as an array of the query
 *
 */
-async function query (config, filterExpr, exprAttributeVal, projExpr) {
+async function query (filterExpr, exprAttributeVal, projExpr, config = { region: 'us-west-2' }) {
   // Set the region
-  AWS.config.update({ region: 'us-west-2' })
+  AWS.config.update(config)
   // Create DynamoDB service object
   const ddb = new AWS.DynamoDB.DocumentClient(config)
 
@@ -29,7 +29,7 @@ async function query (config, filterExpr, exprAttributeVal, projExpr) {
     if (err) {
       console.log('Error', err)
     } else {
-      // console.log('Received ' + String(data.Count) + ' points')
+      console.log('Received ' + String(data.Count) + ' points')
     }
   }).promise()
 

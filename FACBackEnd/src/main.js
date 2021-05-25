@@ -70,9 +70,9 @@ app.use(express.json())
 app.post('/addNewTrashCan', (req, res) => {
   let { query } = req
 
-  // console.log(req.query)
+  console.log(query)
 
-  if (isQueryInvalid()) {
+  if (isQueryInvalid(query)) {
     res.sendStatus(400)
   }
 
