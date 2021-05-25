@@ -26,11 +26,10 @@ When you first open the app, you'll have a map of all sorts of pins. Each pin is
 
 ### Find a specific type of can
 Have a plastic bottle in your hand that you need to recycle but can't find the right can? Use the filter buttons on the bottom of the screen to only display certain types of cans. 
-**Does not work as of release v0.1**
 
 ### Add a new can
 Found a trash can we don't have on our map? Hit the "Add" button to add it to our database.  
-**Does not work as of release v0.1**
+**Only adds cans of all 3 types at once as of v0.2**
 
 ### Find nearest can
 Want the app to find the nearest can of a certain type for you? Hit the "Find" button and specify the type you're looking for. The app will automatically zoom in on it.  
