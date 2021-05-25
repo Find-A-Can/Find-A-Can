@@ -16,9 +16,31 @@ function MarkCans(props) {
         longitude: location.geometry.coordinates[1]
       }}
       pinColor={color}
+      title={'Has:'}
+      description={makeDescription(location)}
       />
     })
   ) : null;
+}
+
+/**
+ * Creates a description of all can types in a single GeoJSON object
+ * 
+ * @param {Object} location single GeoJSON feature
+ */
+function makeDescription(location) {
+  let valueString = '';
+  if (location.properties.isCompost) {
+    valueString += 'Compost ';
+  }
+  if (location.properties.isGarbage) {
+    valueString += 'Garbage ';
+  }
+  if (location.properties.isRecycling) {
+    valueString += 'Recycling ';
+  }
+
+  return valueString.trim();
 }
 
 const CanMarkers = React.memo(MarkCans);

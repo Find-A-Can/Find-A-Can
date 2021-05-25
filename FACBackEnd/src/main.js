@@ -50,19 +50,27 @@ app.get('/getTrashCansInArea', async (req, res) => {
     })
 })
 
-app.post('/addNewTrashCan', (req, res) => {
-  const { body } = req
+app.use(express.json())
 
-  if (!body.latitude || !body.longitude || !body.isGarbage || !body.isCompost || !body.isRecycling) {
+app.post('/addNewTrashCan', (req, res) => {
+  const { query } = req
+
+  // console.log(req.query)
+
+  if (!query.latitude || !query.longitude || !query.isGarbage || !query.isCompost || !query.isRecycling) {
     res.sendStatus(400)
   }
-
-  putItem.putItem('' + body.latitude, '' + body.longitude, body.isGarbage, body.isCompost, body.isRecycling)
+  putItem.putItem('' + query.latitude, '' + query.longitude, toBoolean(query.isGarbage), toBoolean(query.isCompost), toBoolean(query.isRecycling))
     .then((result, error) => {
       if (error) res.sendStatus(500)
       else res.send(result).status(200)
     })
 })
+
+toBoolean = (input) => {
+  const val = ('' + input).toLowerCase()
+  return val == 'true'
+}
 
 app.post('/update', (req, res) => {
   console.log(req.query)
