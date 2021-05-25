@@ -9,10 +9,10 @@ function generateGetItem (lat, lng) {
   }
 }
 
-function getItem (config, lat, lng) {
+function getItem (lat, lng, config = { region: 'us-west-2' }) {
   const AWS = require('aws-sdk')
   // Set the region
-  AWS.config.update({ region: 'us-west-2' })
+  AWS.config.update(config)
 
   // Create the DynamoDB service object
   const ddb = new AWS.DynamoDB(config)
