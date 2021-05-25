@@ -11,17 +11,19 @@ const config = {
   })
 }
 const testInvalid = [-1, -1, -1, -1]
-test('query result should be nothing', async () => {
-  const projectionExpression = 'Lat, Lng, IsCompost, IsGarbage,IsRecycling'
-  const condition = 'Lat between :south and :north and Lng between :west and :east'
-  const expression = {
-    ':north': parseFloat(testInvalid[0]),
-    ':south': parseFloat(testInvalid[1]),
-    ':east': parseFloat(testInvalid[2]),
-    ':west': parseFloat(testInvalid[3])
-  }
-  expect.hasAssertions()
-  const Items = await queryDB.query(condition, expression, projectionExpression, config)
-  const expected = []
-  expect(Items).toStrictEqual(expected)
+describe('testing DynamoDB get queries', () => {
+  it('query result should be nothing', async () => {
+    expect.hasAssertions()
+    const projectionExpression = 'Lat, Lng, IsCompost, IsGarbage,IsRecycling'
+    const condition = 'Lat between :south and :north and Lng between :west and :east'
+    const expression = {
+      ':north': parseFloat(testInvalid[0]),
+      ':south': parseFloat(testInvalid[1]),
+      ':east': parseFloat(testInvalid[2]),
+      ':west': parseFloat(testInvalid[3])
+    }
+    const Items = await queryDB.query(condition, expression, projectionExpression, config)
+    const expected = []
+    expect(Items).toStrictEqual(expected)
+  })
 })

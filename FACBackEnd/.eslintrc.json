@@ -18,8 +18,8 @@
         "jest/no-identical-title": "error",
         "jest/prefer-to-have-length": "warn",
         "jest/valid-expect": "error",
-        "jest/prefer-expect-assertions": "off",
-        "jest/require-top-level-describe": "off",
-        "jest/prefer-strict-equal": "off"
+        "jest/prefer-expect-assertions": "warn",
+        "jest/require-top-level-describe": "warn",
+        "jest/prefer-strict-equal": "warn"
     }   
 }
