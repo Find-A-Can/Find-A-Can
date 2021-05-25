@@ -22,7 +22,7 @@ describe('testing DynamoDB get queries', () => {
       ':east': parseFloat(testInvalid[2]),
       ':west': parseFloat(testInvalid[3])
     }
-    const Items = await queryDB.query(config, condition, expression, projectionExpression)
+    const Items = await queryDB.query(condition, expression, projectionExpression, config)
     const expected = []
     expect(Items).toStrictEqual(expected)
   })
