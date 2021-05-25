@@ -14,7 +14,7 @@ const config = {
 const ddb = new DocumentClient(config)
 test('should insert item into table', async () => {
 // Inserts item into table
-  await putItem.putItem(config, '40', '40', true, false, true)
+  await putItem.putItem('40', '40', true, false, true, config)
   const { Item } = await ddb.get({ TableName: 'Locations', Key: { Lat: 40, Lng: 40 } }).promise()
   // Checks if item is equivalent to what we expect
   expect(Item).toEqual({

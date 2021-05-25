@@ -21,7 +21,7 @@ test('query result should be nothing', async () => {
     ':west': parseFloat(testInvalid[3])
   }
   expect.hasAssertions()
-  const Items = await queryDB.query(config, condition, expression, projectionExpression)
+  const Items = await queryDB.query(condition, expression, projectionExpression, config)
   const expected = []
   expect(Items).toStrictEqual(expected)
 })

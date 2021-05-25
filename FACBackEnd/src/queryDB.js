@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk')
 
-async function query (config, filterExpr, exprAttributeVal, projExpr) {
+async function query (filterExpr, exprAttributeVal, projExpr, config = { region: 'us-west-2' }) {
   // Set the region
   AWS.config.update({ region: 'us-west-2' })
   // Create DynamoDB service object

@@ -7,6 +7,11 @@ app.use(express.json())
 
 const port = 3000
 
+const toBoolean = (input) => {
+  const val = ('' + input).toLowerCase()
+  return val === 'true'
+}
+
 app.get('/getTrashCansInArea', async (req, res) => {
   const currQuery = req.query
 
@@ -66,11 +71,6 @@ app.post('/addNewTrashCan', (req, res) => {
       else res.send(result).status(200)
     })
 })
-
-toBoolean = (input) => {
-  const val = ('' + input).toLowerCase()
-  return val == 'true'
-}
 
 app.post('/update', (req, res) => {
   console.log(req.query)
