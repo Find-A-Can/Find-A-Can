@@ -43,7 +43,7 @@
 - Refactored main.js into helper methods and fully tested them
 
 #### Ryan Tannenberg
-
+- App now able to filter can types on map
 
 #### Joseph Ubelhart
 - Fixed visual error with dark mode
@@ -58,7 +58,7 @@
 - Set up automation to auto build docker image on GitHub and push it to an AWS hosting service
 
 #### Ryan Tannenberg
-
+- Implement a dialog to more gracefully handle network errors
 
 #### Joseph Ubelhart
 - Make app able to get nearest can to you
