@@ -44,6 +44,7 @@
 
 #### Ryan Tannenberg
 - App now able to filter can types on map
+- Users can add cans of different types
 
 #### Joseph Ubelhart
 - Fixed visual error with dark mode
