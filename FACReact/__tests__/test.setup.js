@@ -2,6 +2,19 @@ import React from 'react';
 
 jest.useFakeTimers();
 
+import {NativeModules} from 'react-native';
+
+// Mock the RNCGeolocation native module to allow us to unit test the JavaScript code
+NativeModules.RNCGeolocation = {
+  addListener: jest.fn(),
+  getCurrentPosition: jest.fn(),
+  removeListeners: jest.fn(),
+  requestAuthorization: jest.fn(),
+  setConfiguration: jest.fn(),
+  startObserving: jest.fn(),
+  stopObserving: jest.fn(),
+};
+
 jest.mock('react-native-maps', () => {
     const { View } = require('react-native');
     const MockMapView = (props: any) => {
