@@ -63,6 +63,7 @@ export class FACMap extends Component {
     if (region.latitudeDelta > 0.75 && region.longitudeDelta > 0.75) {
       this.setState({cachedData: getDefaultData()});
       isGettingCans = false;
+      Alert.alert("Zoomed too far out", "Zoom back in to see markers");
     } else if (!isGettingCans) {
       isGettingCans = true;
       try {
@@ -73,6 +74,7 @@ export class FACMap extends Component {
           });
         }
       } catch (err) {
+        Alert.alert("Failed to get cans", "Our database may be down, try again later");
         console.log("onRegionChange failed");
         isGettingCans = false;
       }
@@ -114,16 +116,12 @@ export class FACMap extends Component {
   componentDidMount() {
     Geolocation.getCurrentPosition(
       position => {
-        //const lastPosition = JSON.stringify(position);
-        console.log(position);
         this.setState({position: position});
       },
-      error => Alert.alert('Error', JSON.stringify(error)),
+      () => Alert.alert("Can't get your location", "Make sure location services are enabled"),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
     this.watchID = Geolocation.watchPosition(position => {
-      console.log(position);
-      //const lastPosition = JSON.stringify(position);
       this.setState({position: position});
     });
   }
@@ -142,7 +140,7 @@ export class FACMap extends Component {
     // if location isn't found, simply stops
     // may be better in future to show error to user
     if (!this.state.position) {
-      return;
+      Alert.alert("Can't get your location", "Make sure location services are enabled");
     }
 
     // gets array of visible cans to the user
@@ -150,11 +148,6 @@ export class FACMap extends Component {
 
     let nearestCoordinates = '';
     let closestDistance = '';
-
-    if (!visibleCans) {
-      console.log("no visible cans")
-      return;
-    }
 
     // finds nearest can from visible cans
     visibleCans.forEach(can => {
@@ -181,15 +174,12 @@ export class FACMap extends Component {
     });
 
     // stops if no nearest can isn't found
-    // may be better in future to show error to user
     if (!nearestCoordinates) {
+      Alert.alert("No nearby cans found!", "Try zooming out");
       return;
     }
 
     // Has the nearest can and user's location, zooms in 
-    console.log(nearestCoordinates);
-    console.log(this.state.position.coords);
-
     this.map.fitToCoordinates([nearestCoordinates, this.state.position.coords], {
       edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
       animated: true,});
@@ -243,7 +233,7 @@ export class FACMap extends Component {
               console.log("Access to location denied");
             }
           } catch (err) {
-            console.warn(err);
+            Alert.alert("Unable to use location", "Make sure location services are enabled");
           }
           this.map.setNativeProps({ style: {
             ...styles.map,

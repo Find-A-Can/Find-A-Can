@@ -81,6 +81,7 @@ export async function getCans(newRegion) {
   .catch((error) => {
     console.log("GET trash cans in an area failed");
     console.error(error);
+    throw error;
   });
 }
 
