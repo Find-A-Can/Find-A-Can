@@ -13,7 +13,7 @@ import {
   Alert
 } from 'react-native'
 import CheckBox from '@react-native-community/checkbox';
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from '@react-native-community/geolocation/';
 import { getDistance } from 'geolib';
 
 var isGettingCans = false;
@@ -115,12 +115,14 @@ export class FACMap extends Component {
     Geolocation.getCurrentPosition(
       position => {
         //const lastPosition = JSON.stringify(position);
+        console.log(position);
         this.setState({position: position});
       },
       error => Alert.alert('Error', JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
     this.watchID = Geolocation.watchPosition(position => {
+      console.log(position);
       //const lastPosition = JSON.stringify(position);
       this.setState({position: position});
     });
@@ -188,47 +190,9 @@ export class FACMap extends Component {
     console.log(nearestCoordinates);
     console.log(this.state.position.coords);
 
-  }
-
-  /**
-   * Get's the user's current location and returns it
-   * 
-   * @returns {Promise} the user's current location
-   * 
-   */
-  async getLocation() {
-    return Geolocation.getCurrentPosition(
-      //Will give you the current location
-      (position) => {
-        //getting the Longitude from the location json
-        const currentLongitude = 
-          JSON.stringify(position.coords.longitude);
-
-        //getting the Latitude from the location json
-        const currentLatitude = 
-          JSON.stringify(position.coords.latitude);
-
-        console.log(position);
-        console.log({
-          longitude: currentLongitude,
-          latitude: currentLatitude
-        });
-        //Setting Longitude state
-        return {
-          longitude: currentLongitude,
-          latitude: currentLatitude
-        }
-      },
-      (error) => {
-        console.log(error);
-        return {}
-      },
-      {
-        enableHighAccuracy: false,
-        timeout: 30000,
-        maximumAge: 1000
-      },
-    );
+    this.map.fitToCoordinates([nearestCoordinates, this.state.position.coords], {
+      edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
+      animated: true,});
   }
 
   /**
