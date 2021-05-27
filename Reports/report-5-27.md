@@ -7,13 +7,14 @@
 - Make full deployment of backend to AWS ECS
 - Add ability for users to add different can types
 
-
 ### Progress and issues
 - Fully added testing to backend along with refactoring backend methods
-
+- Add can form completed
+- Filtering completed
 
 ### Plans for the week
 - Add automation to auto build docker container and deploy to AWS
+- Make app able to get nearest can to you
 
 ## Individual contributions
 
@@ -45,7 +46,8 @@
 
 
 #### Joseph Ubelhart
-
+- Fixed visual error with dark mode
+- Fixed can information displays
 
 ### Plans for the week
 
@@ -59,4 +61,4 @@
 
 
 #### Joseph Ubelhart
-
+- Make app able to get nearest can to you
