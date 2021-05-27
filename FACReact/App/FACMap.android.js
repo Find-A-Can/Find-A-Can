@@ -209,7 +209,6 @@ export class FACMap extends Component {
             </View>
 
           </View>
-            <Button title="Add New Container" onPress={() => this.onAddCanPress()}/>
         </View>
 
         <Modal
