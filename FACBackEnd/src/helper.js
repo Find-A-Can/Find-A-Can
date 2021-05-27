@@ -49,11 +49,11 @@ const resultToGeoJSON = (itemList) => {
  * @returns true if the query is invalid, false if it is valid
  */
 const isQueryInvalid = (query) => {
-  return query.latitude == undefined ||
-            query.longitude == undefined ||
-            query.isGarbage == undefined||
-            query.isCompost == undefined ||
-            query.isRecycling == undefined
+  return typeof query.latitude === 'undefined' ||
+            typeof query.longitude === 'undefined' ||
+            typeof query.isGarbage === 'undefined' ||
+            typeof query.isCompost === 'undefined' ||
+            typeof query.isRecycling === 'undefined'
 }
 
 /**
