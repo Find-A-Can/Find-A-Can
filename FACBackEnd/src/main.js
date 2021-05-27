@@ -68,17 +68,17 @@ app.use(express.json())
  *          to include the new can location
  */
 app.post('/addNewTrashCan', (req, res) => {
-  let { query } = req
+  let { body } = req
 
-  console.log(query)
+  // console.log(body)
 
-  if (isQueryInvalid(query)) {
+  if (isQueryInvalid(body)) {
     res.sendStatus(400)
   }
 
-  query = convertQueryTypes(query)
+  body = convertQueryTypes(body)
 
-  putItem.putItem(query.latitude, query.longitude, query.isGarbage, query.isCompost, query.isRecycling)
+  putItem.putItem(body.latitude, body.longitude, body.isGarbage, body.isCompost, body.isRecycling)
     .then((result, error) => {
       if (error) res.sendStatus(500)
       else res.send(result).status(200)
