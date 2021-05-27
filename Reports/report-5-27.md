@@ -36,7 +36,7 @@
 ### Progress and issues
 
 #### Jimmy Guo
--
+- Refactored backend methods, and added tests for each of them
 
 #### Aroosh Kumar
 - Refactored main.js into helper methods and fully tested them
@@ -50,7 +50,7 @@
 ### Plans for the week
 
 #### Jimmy Guo
-- Finish a full test suite for the backend using Jest
+- Continue adding tests to the test suite for backend, and finish a testing suite for frontend
 
 #### Aroosh Kumar
 - Set up automation to auto build docker image on GitHub and push it to an AWS hosting service
