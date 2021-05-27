@@ -11,7 +11,7 @@ env:
   ECR_REGISTRY: 948027292661.dkr.ecr.us-west-2.amazonaws.com
   ECR_REPOSITORY: facbackend           # set this to your Amazon ECR repository name
   ECS_SERVICE: facbackend-service                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: default                 # set this to your Amazon ECS cluster name
+  ECS_CLUSTER: facbackendCluster                 # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: ./FACBackEnd/task_definition.json # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: facbackend          # set this to the name of the container in the
