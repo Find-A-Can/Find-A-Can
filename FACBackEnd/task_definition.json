@@ -10,7 +10,7 @@
           "secretOptions": null,
           "options": {
             "awslogs-group": "/ecs/facbackend_task",
-            "awslogs-region": "us-east-2",
+            "awslogs-region": "us-west-2",
             "awslogs-stream-prefix": "ecs"
           }
         },
@@ -64,7 +64,7 @@
       "EC2",
       "FARGATE"
     ],
-    "taskDefinitionArn": "arn:aws:ecs:us-east-2:948027292661:task-definition/facbackend_task:1",
+    "taskDefinitionArn": "arn:aws:ecs:us-west-2:948027292661:task-definition/facbackend_task:2",
     "family": "facbackend_task",
     "requiresAttributes": [
       {
@@ -116,7 +116,7 @@
     ],
     "networkMode": "awsvpc",
     "cpu": "256",
-    "revision": 1,
+    "revision": 2,
     "status": "ACTIVE",
     "inferenceAccelerators": null,
     "proxyConfiguration": null,
