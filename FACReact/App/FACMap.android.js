@@ -9,9 +9,12 @@ import {
   View,
   Button,
   Text,
-  Modal
+  Modal,
+  Alert
 } from 'react-native'
 import CheckBox from '@react-native-community/checkbox';
+import Geolocation from '@react-native-community/geolocation/';
+import { getDistance } from 'geolib';
 
 var isGettingCans = false;
 
@@ -60,6 +63,7 @@ export class FACMap extends Component {
     if (region.latitudeDelta > 0.75 && region.longitudeDelta > 0.75) {
       this.setState({cachedData: getDefaultData()});
       isGettingCans = false;
+      Alert.alert("Zoomed too far out", "Zoom back in to see markers");
     } else if (!isGettingCans) {
       isGettingCans = true;
       try {
@@ -70,6 +74,7 @@ export class FACMap extends Component {
           });
         }
       } catch (err) {
+        Alert.alert("Failed to get cans", "Our database may be down, try again later");
         console.log("onRegionChange failed");
         isGettingCans = false;
       }
@@ -108,6 +113,102 @@ export class FACMap extends Component {
     this.setState({ filterModalVisible: visible });
   }
 
+  componentDidMount() {
+    Geolocation.getCurrentPosition(
+      position => {
+        this.setState({position: position});
+      },
+      () => Alert.alert("Can't get your location", "Make sure location services are enabled"),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+    );
+    this.watchID = Geolocation.watchPosition(position => {
+      this.setState({position: position});
+    });
+  }
+
+  componentWillUnmount() {
+    this.watchID != null && Geolocation.clearWatch(this.watchID);
+  }
+
+  /**
+   * Finds and zooms to the nearest displayed can of the visible type
+   * 
+   * @async
+   * @modifies map's display is moved to the nearest can
+   */
+  async getNearestCan() {
+    // if location isn't found, simply stops
+    // may be better in future to show error to user
+    if (!this.state.position) {
+      Alert.alert("Can't get your location", "Make sure location services are enabled");
+    }
+
+    // gets array of visible cans to the user
+    let visibleCans = this.filterCans();
+
+    let nearestCoordinates = '';
+    let closestDistance = '';
+
+    // finds nearest can from visible cans
+    visibleCans.forEach(can => {
+      if (!nearestCoordinates) {
+        nearestCoordinates = {
+          latitude: can.geometry.coordinates[0],
+          longitude: can.geometry.coordinates[1]
+        }
+
+        closestDistance = getDistance(nearestCoordinates, this.state.position.coords);
+      } else {
+        let canCoords = {
+          latitude: can.geometry.coordinates[0],
+          longitude: can.geometry.coordinates[1]
+        }
+
+        let newDistance = getDistance(canCoords, this.state.position.coords);
+
+        if (newDistance < closestDistance) {
+          nearestCoordinates = canCoords;
+          closestDistance = newDistance;
+        }
+      }
+    });
+
+    // stops if no nearest can isn't found
+    if (!nearestCoordinates) {
+      Alert.alert("No nearby cans found!", "Try zooming out");
+      return;
+    }
+
+    // Has the nearest can and user's location, zooms in 
+    this.map.fitToCoordinates([nearestCoordinates, this.state.position.coords], {
+      edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
+      animated: true,});
+  }
+
+  /**
+   * Takes the current state's cans and filters them, returning those that should be visible
+   * 
+   * @returns array of GeoJSON features as can markers
+   */
+  filterCans() {
+    return this.state.cachedData.features.filter(location => {
+      if (this.state.customSearch) {
+        if (this.state.modalGarbage && !location.properties.isGarbage) return false;
+        if (this.state.modalRecycling && !location.properties.isRecycling) return false;
+        if (this.state.modalCompost && !location.properties.isCompost) return false;
+
+        // if no filters are selected, return nothing
+        if (!this.state.modalGarbage && !this.state.modalRecycling && !this.state.modalCompost) return false;
+
+        return true;
+      } else {
+        if (this.state.showGarbage) return location.properties.isGarbage;
+        else if (this.state.showRecycling) return location.properties.isRecycling;
+        else if (this.state.showCompost) return location.properties.isCompost;
+      }
+    })
+  }
+
   /*
     Renders the map
   */
@@ -132,7 +233,7 @@ export class FACMap extends Component {
               console.log("Access to location denied");
             }
           } catch (err) {
-            console.warn(err);
+            Alert.alert("Unable to use location", "Make sure location services are enabled");
           }
           this.map.setNativeProps({ style: {
             ...styles.map,
@@ -157,22 +258,7 @@ export class FACMap extends Component {
         <CanMarkers
           // filter locations before they are provided to the marker handler
           // display no locations when the modal is open
-          locations={this.state.filterModalVisible ? null : this.state.cachedData.features.filter(location => {
-            if (this.state.customSearch) {
-              if (this.state.modalGarbage && !location.properties.isGarbage) return false;
-              if (this.state.modalRecycling && !location.properties.isRecycling) return false;
-              if (this.state.modalCompost && !location.properties.isCompost) return false;
-
-              // if no filters are selected, return nothing
-              if (!this.state.modalGarbage && !this.state.modalRecycling && !this.state.modalCompost) return false;
-
-              return true;
-            } else {
-              if (this.state.showGarbage) return location.properties.isGarbage;
-              else if (this.state.showRecycling) return location.properties.isRecycling;
-              else if (this.state.showCompost) return location.properties.isCompost;
-            }
-          })}
+          locations={this.state.filterModalVisible ? null : this.filterCans()}
           // determine color and provide it to marker handler
           color={this.state.customSearch ? 'purple' : this.state.showGarbage ? 'tan' : this.state.showRecycling ? 'blue' : this.state.showCompost ? 'green' : 'red'}
           />
@@ -266,6 +352,7 @@ export class FACMap extends Component {
             </View>
           </View>
         </Modal>
+      <Button title="Find Nearest Can" onPress={() => {this.getNearestCan()}}/>
       </View>
     )
   }
