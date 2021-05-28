@@ -3,6 +3,8 @@ name: Deploy to Amazon ECS
 on:
   release:
     types: [ created ]
+  pull_request:
+    branches: [ main ]
 
 env:
   AWS_REGION: us-west-2               # set this to your preferred AWS region, e.g. us-west-1
