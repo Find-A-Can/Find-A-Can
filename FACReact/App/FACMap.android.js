@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import MapView from 'react-native-maps'
-import {addNewCan, getCans, getDefaultData} from './ServerInteract'
+import { getCans, getDefaultData} from './ServerInteract'
 import CanMarkers from './CanMarkers';
 import { RadioButtons } from './RadioButtons.android'
 import {
@@ -17,6 +17,11 @@ import Geolocation from '@react-native-community/geolocation/';
 import { getDistance } from 'geolib';
 
 var isGettingCans = false;
+var geolocationPosition;
+
+export function getPosition() {
+  return geolocationPosition;
+}
 
 /**
  * Manages the map element. Only works on Android
@@ -30,9 +35,9 @@ export class FACMap extends Component {
   state = {
     region: {
       latitude: 47.656882, 
-      latitudeDelta: 0.74, 
+      latitudeDelta: 0.1, 
       longitude: -122.308035, 
-      longitudeDelta: 0.74
+      longitudeDelta: 0.1
     },
     cachedData: getDefaultData(),
     showGarbage: true,
@@ -81,18 +86,6 @@ export class FACMap extends Component {
     }
   }
 
-  onAddCanPress() {
-    addNewCan(
-      this.state.region.latitude,
-      this.state.region.longitude,
-      true,
-      true,
-      true
-    ).then(() => {
-      this.onRegionChange(this.state.region)
-    });
-  }
-
   /**
    * Called by RadioButtons component when selection changes
    * @param {Number} id id of newly selected RadioButton
@@ -113,19 +106,6 @@ export class FACMap extends Component {
     this.setState({ filterModalVisible: visible });
   }
 
-  componentDidMount() {
-    Geolocation.getCurrentPosition(
-      position => {
-        this.setState({position: position});
-      },
-      () => Alert.alert("Can't get your location", "Make sure location services are enabled"),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
-    );
-    this.watchID = Geolocation.watchPosition(position => {
-      this.setState({position: position});
-    });
-  }
-
   componentWillUnmount() {
     this.watchID != null && Geolocation.clearWatch(this.watchID);
   }
@@ -139,7 +119,7 @@ export class FACMap extends Component {
   async getNearestCan() {
     // if location isn't found, simply stops
     // may be better in future to show error to user
-    if (!this.state.position) {
+    if (!geolocationPosition || !geolocationPosition.coords) {
       Alert.alert("Can't get your location", "Make sure location services are enabled");
     }
 
@@ -150,28 +130,33 @@ export class FACMap extends Component {
     let closestDistance = '';
 
     // finds nearest can from visible cans
-    visibleCans.forEach(can => {
-      if (!nearestCoordinates) {
-        nearestCoordinates = {
-          latitude: can.geometry.coordinates[0],
-          longitude: can.geometry.coordinates[1]
-        }
+    try {
+      visibleCans.forEach(can => {
+        if (!nearestCoordinates) {
+          nearestCoordinates = {
+            latitude: can.geometry.coordinates[0],
+            longitude: can.geometry.coordinates[1]
+          }
 
-        closestDistance = getDistance(nearestCoordinates, this.state.position.coords);
-      } else {
-        let canCoords = {
-          latitude: can.geometry.coordinates[0],
-          longitude: can.geometry.coordinates[1]
-        }
+          closestDistance = getDistance(nearestCoordinates, geolocationPosition.coords);
+        } else {
+          let canCoords = {
+            latitude: can.geometry.coordinates[0],
+            longitude: can.geometry.coordinates[1]
+          }
 
-        let newDistance = getDistance(canCoords, this.state.position.coords);
+          let newDistance = getDistance(canCoords, geolocationPosition.coords);
 
-        if (newDistance < closestDistance) {
-          nearestCoordinates = canCoords;
-          closestDistance = newDistance;
+          if (newDistance < closestDistance) {
+            nearestCoordinates = canCoords;
+            closestDistance = newDistance;
+          }
         }
-      }
-    });
+      });
+    } catch {
+      Alert.alert("Can't find nearest cans", "Try again");
+      return;
+    }
 
     // stops if no nearest can isn't found
     if (!nearestCoordinates) {
@@ -180,7 +165,7 @@ export class FACMap extends Component {
     }
 
     // Has the nearest can and user's location, zooms in 
-    this.map.fitToCoordinates([nearestCoordinates, this.state.position.coords], {
+    this.map.fitToCoordinates([nearestCoordinates, geolocationPosition.coords], {
       edgePadding: { top: 0, right: 0, bottom: 0, left: 0 },
       animated: true,});
   }
@@ -216,29 +201,48 @@ export class FACMap extends Component {
     return (
       <View style={{...styles.parent}}>
         <MapView
-        onMapReady={async () => {
-          try {
-            const granted = await PermissionsAndroid.request(
-              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-              {
-                title: "Find A Can Location",
-                message:
-                  "Find A Can needs to know your location to help find nearby trash cans",
-                buttonPositive: "Go To Permissions Page"
-              }
-            );
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        onMapReady={() => {
+          PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: "Find A Can Location",
+              message:
+                "Find A Can needs to know your location to help find nearby trash cans",
+              buttonPositive: "Go To Permissions Page"
+            }
+          ).then((permissionResult) => {
+            if (permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
               console.log("Access to location granted");
+              Geolocation.getCurrentPosition(
+                position => {
+                  geolocationPosition = position;
+                  this.setState({position: position});
+                },
+                () => Alert.alert("Can't get your location", "Make sure location services are enabled"),
+                {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+              );
+              this.watchID = Geolocation.watchPosition(position => {
+                geolocationPosition = position;
+                this.setState({position: position});
+              });
             } else {
               console.log("Access to location denied");
+              Alert.alert("Can't get your location", "Make sure location services are enabled");
             }
-          } catch (err) {
-            Alert.alert("Unable to use location", "Make sure location services are enabled");
-          }
+          },
+          // if error in getting permissions 
+          () => {
+            Alert.alert("Can't get your location", "Make sure location services are enabled")
+          });
           this.map.setNativeProps({ style: {
             ...styles.map,
             marginLeft: 1,} 
           })
+          if (geolocationPosition && geolocationPosition.coords) {
+            this.map.animateCamera({center: geolocationPosition.coords});
+          } else {
+            console.log(geolocationPosition);
+          }
         }}
         provider={MapView.PROVIDER_GOOGLE}
         ref={(el) => { this.map = el }}

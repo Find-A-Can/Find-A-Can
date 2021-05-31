@@ -141,5 +141,6 @@ export function addNewCan(
   .catch((error) => {
     console.log("Add new trash can failed");
     console.error(error);
+    throw error;
   });
 }
