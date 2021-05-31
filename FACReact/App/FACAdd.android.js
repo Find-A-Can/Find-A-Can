@@ -53,8 +53,8 @@ export class FACAdd extends Component {
         this.state.latitude,
         this.state.longitude,
         this.state.isGarbage,
-        this.state.isRecycling,
-        this.state.isCompost
+        this.state.isCompost,
+        this.state.isRecycling
       ).then(() => {
         this.props.onFinish(true);
       });
