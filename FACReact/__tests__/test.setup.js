@@ -29,9 +29,10 @@ jest.mock('react-native-maps', () => {
       return <View>{this.props.children}</View>;
     }
   }
-    return {
-      __esModule: true,
-      default: MockMapView,
-      Marker: MockMarker,
-    };
-  });
+
+  return {
+    __esModule: true,
+    default: MockMapView,
+    Marker: MockMarker,
+  };
+});

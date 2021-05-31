@@ -106,43 +106,6 @@ export class FACMap extends Component {
     this.setState({ filterModalVisible: visible });
   }
 
-  componentDidMount() {
-    PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      {
-        title: "Find A Can Location",
-        message:
-          "Find A Can needs to know your location to help find nearby trash cans",
-        buttonPositive: "Go To Permissions Page"
-      }
-    ).then((permissionResult) => {
-      if (permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("Access to location granted");
-        Geolocation.getCurrentPosition(
-          position => {
-            geolocationPosition = position;
-            this.setState({position: position});
-          },
-          () => Alert.alert("Can't get your location", "Make sure location services are enabled"),
-          {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
-        );
-        this.watchID = Geolocation.watchPosition(position => {
-          geolocationPosition = position;
-          this.setState({position: position});
-        });
-      } else {
-        console.log("Access to location denied");
-        Alert.alert("Can't get your location", "Make sure location services are enabled");
-      }
-    },
-    // if error in getting permissions 
-    () => {
-      Alert.alert("Can't get your location", "Make sure location services are enabled")
-    });
-    
-    
-  }
-
   componentWillUnmount() {
     this.watchID != null && Geolocation.clearWatch(this.watchID);
   }
@@ -239,6 +202,38 @@ export class FACMap extends Component {
       <View style={{...styles.parent}}>
         <MapView
         onMapReady={() => {
+          PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: "Find A Can Location",
+              message:
+                "Find A Can needs to know your location to help find nearby trash cans",
+              buttonPositive: "Go To Permissions Page"
+            }
+          ).then((permissionResult) => {
+            if (permissionResult === PermissionsAndroid.RESULTS.GRANTED) {
+              console.log("Access to location granted");
+              Geolocation.getCurrentPosition(
+                position => {
+                  geolocationPosition = position;
+                  this.setState({position: position});
+                },
+                () => Alert.alert("Can't get your location", "Make sure location services are enabled"),
+                {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+              );
+              this.watchID = Geolocation.watchPosition(position => {
+                geolocationPosition = position;
+                this.setState({position: position});
+              });
+            } else {
+              console.log("Access to location denied");
+              Alert.alert("Can't get your location", "Make sure location services are enabled");
+            }
+          },
+          // if error in getting permissions 
+          () => {
+            Alert.alert("Can't get your location", "Make sure location services are enabled")
+          });
           this.map.setNativeProps({ style: {
             ...styles.map,
             marginLeft: 1,} 
