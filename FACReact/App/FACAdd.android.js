@@ -6,11 +6,13 @@ import {
   View,
   Button,
   Text,
-  Image
+  Image,
+  Alert
 } from 'react-native'
 import PropTypes from 'prop-types';
 import CheckBox from '@react-native-community/checkbox';
 import markerPNG from './google-map-pin.png';
+import { getPosition } from './FACMap.android'
 
 /**
  * Manages the add element. Only works on Android
@@ -30,9 +32,9 @@ export class FACAdd extends Component {
   state = {
     region: {
       latitude: 47.656882, 
-      latitudeDelta: 0.74, 
+      latitudeDelta: 0.01, 
       longitude: -122.308035, 
-      longitudeDelta: 0.74
+      longitudeDelta: 0.01
     },
     latitude: null,
     longitude: null,
@@ -46,15 +48,19 @@ export class FACAdd extends Component {
   }
 
   onSubmit() {
-    addNewCan(
-      this.state.latitude,
-      this.state.longitude,
-      this.state.isGarbage,
-      this.state.isRecycling,
-      this.state.isCompost
-    ).then(() => {
-      this.props.onFinish(true);
-    });
+    try {
+      addNewCan(
+        this.state.latitude,
+        this.state.longitude,
+        this.state.isGarbage,
+        this.state.isRecycling,
+        this.state.isCompost
+      ).then(() => {
+        this.props.onFinish(true);
+      });
+    } catch {
+      Alert.alert("Failed to add new can", "Try again later");
+    }
   }
 
   onRegionChange(region) {
@@ -75,11 +81,11 @@ export class FACAdd extends Component {
         <View style={styles.mapContainer} >
           <View style={styles.mapObjectContainer}>
             <MapView
-            onMapReady={async () => {
+            onMapReady={() => {
               this.map.setNativeProps({ style: {
                 ...styles.expandContainer,
                 marginLeft: 1,} 
-              })
+              });
             }}
             provider={MapView.PROVIDER_GOOGLE}
             ref={(el) => { this.map = el }}
@@ -94,6 +100,9 @@ export class FACAdd extends Component {
             zoomControlEnabled={true}
             customMapStyle={customMapStyle}
             pitchEnabled={false}
+            onLayout={() => {
+              this.map.animateCamera({center: getPosition().coords});
+            }}
             >
               {this.state.latitude &&
                 <Marker
