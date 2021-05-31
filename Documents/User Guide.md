@@ -13,8 +13,6 @@ Open the .apk on your phone.
 Android will ask you if you want to install the application  
 Hit install and wait a few seconds
 
-This will eventually be replaced with a Google Play download link
-
 ## Running the App
 Simply open the app like any other from your app drawer or home screen  
 Make sure location services are on to use the app to its full potential
@@ -27,13 +25,27 @@ When you first open the app, you'll have a map of all sorts of pins. Each pin is
 ### Find a specific type of can
 Have a plastic bottle in your hand that you need to recycle but can't find the right can? Use the filter buttons on the bottom of the screen to only display certain types of cans. 
 
+Hit "CUSTOM" if you're looking for something specific, like a Garbage and Recycling can.  
+Note that custom filters only look for exact matches. A filter for garbage and recycling will not match a can that is just garbage or just recycling. 
+
 ### Add a new can
-Found a trash can we don't have on our map? Hit the "Add" button to add it to our database.  
-**Only adds cans of all 3 types at once as of v0.2**
+Found a trash can we don't have on our map? 
+
+1. Hit the "ADD NEW CONTAINER" button to add it to our database
+2. The crosshair will automatically move to your location
+3. Use the crosshair to pinpoint the location
+4. Press set location
+5. Select the type of waste accepted at the location
+6. Hit Submit to add it
+
+If at any point you've changed your mind, just hit "CANCEL"
 
 ### Find nearest can
-Want the app to find the nearest can of a certain type for you? Hit the "Find" button and specify the type you're looking for. The app will automatically zoom in on it.  
-**Not yet implemented**
+Want the app to find the nearest can of a certain type for you? 
+
+1. Choose the type of can you're looking for with the filter options.
+2. Hit the "FIND NEAREST CAN BUTTON"
+3. If there's any markers on the map, the app will automatically zoom to display your location relative to the nearest can of that type 
 
 ## Reporting bugs
 If you have any issues, please open a [github issue](https://github.com/Find-A-Can/Find-A-Can/issues).  
