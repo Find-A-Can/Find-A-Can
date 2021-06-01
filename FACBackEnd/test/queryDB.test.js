@@ -16,11 +16,12 @@ describe('testing DynamoDB get queries', () => {
   const condition = 'Lat between :south and :north and Lng between :west and :east'
   const ddb = new DocumentClient(config)
   // Insert data into dummy table
-  ddb.put({ TableName: 'Locations', Item: { Lat: 40, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
 
-  ddb.put({ TableName: 'Locations', Item: { Lat: 46, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
   it('query result should be nothing', async () => {
     expect.hasAssertions()
+    ddb.put({ TableName: 'Locations', Item: { Lat: 40, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
+
+    ddb.put({ TableName: 'Locations', Item: { Lat: 46, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
     const testInvalid = [-1, -1, -1, -1]
     const expression = {
       ':north': parseFloat(testInvalid[0]),
@@ -34,7 +35,9 @@ describe('testing DynamoDB get queries', () => {
   })
   it('query result of valid lat range and lng range', async () => {
     expect.hasAssertions()
+    ddb.put({ TableName: 'Locations', Item: { Lat: 40, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
 
+    ddb.put({ TableName: 'Locations', Item: { Lat: 46, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
     const test = [45, 39, 41, 30]
     const expression = {
       ':north': parseFloat(test[0]),
@@ -51,6 +54,9 @@ describe('testing DynamoDB get queries', () => {
     expect.hasAssertions()
     const isGarbCondition = 'Lat between :south and :north and Lng between :west and :east and IsGarbage = :isgarb'
     const test = [45, 39, 41, 30]
+    ddb.put({ TableName: 'Locations', Item: { Lat: 40, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
+
+    ddb.put({ TableName: 'Locations', Item: { Lat: 46, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
     const expression = {
       ':north': parseFloat(test[0]),
       ':south': parseFloat(test[1]),
