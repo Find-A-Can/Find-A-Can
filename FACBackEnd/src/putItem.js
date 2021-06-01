@@ -11,7 +11,7 @@
 */
 function generateItem (lat, lng, isCompost, isGarbage, isRecycling) {
   return {
-    TableName: 'Locations',
+    TableName: 'TrueLocations',
     Item: {
       Lat: { N: lat },
       Lng: { N: lng },

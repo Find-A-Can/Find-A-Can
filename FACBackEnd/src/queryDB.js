@@ -23,7 +23,7 @@ async function query (filterExpr, exprAttributeVal, projExpr, config = { region:
     ExpressionAttributeValues: exprAttributeVal,
     // Set the projection expression, which are the attributes that you want.
     ProjectionExpression: projExpr,
-    TableName: 'Locations'
+    TableName: 'TrueLocations'
   }
   const request = await ddb.scan(params, function (err, data) {
     if (err) {

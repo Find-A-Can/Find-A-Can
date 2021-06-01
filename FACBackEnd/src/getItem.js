@@ -8,7 +8,7 @@
 */
 function generateGetItem (lat, lng) {
   return {
-    TableName: 'Locations',
+    TableName: 'TrueLocations',
     Key: {
       Lat: { N: lat },
       Lng: { N: lng }
