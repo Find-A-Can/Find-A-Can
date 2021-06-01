@@ -11,15 +11,14 @@ const config = {
   })
 }
 
-const projectionExpression = 'Lat, Lng, IsCompost, IsGarbage,IsRecycling'
-const condition = 'Lat between :south and :north and Lng between :west and :east'
-const ddb = new DocumentClient(config)
-// Insert data into dummy table
-ddb.put({ TableName: 'Locations', Item: { Lat: 40, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
-
-ddb.put({ TableName: 'Locations', Item: { Lat: 46, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
-
 describe('testing DynamoDB get queries', () => {
+  const projectionExpression = 'Lat, Lng, IsCompost, IsGarbage,IsRecycling'
+  const condition = 'Lat between :south and :north and Lng between :west and :east'
+  const ddb = new DocumentClient(config)
+  // Insert data into dummy table
+  ddb.put({ TableName: 'Locations', Item: { Lat: 40, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
+
+  ddb.put({ TableName: 'Locations', Item: { Lat: 46, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
   it('query result should be nothing', async () => {
     expect.hasAssertions()
     const testInvalid = [-1, -1, -1, -1]
