@@ -17,7 +17,7 @@ describe('testing insertion DynamoDB queries', () => {
     expect.hasAssertions()
     // Inserts item into table
     await putItem.putItem('40', '40', true, false, true, config)
-    const { Item } = await ddb.get({ TableName: 'Locations', Key: { Lat: 40, Lng: 40 } }).promise()
+    const { Item } = await ddb.get({ TableName: 'TrueLocations', Key: { Lat: 40, Lng: 40 } }).promise()
     // Checks if item is equivalent to what we expect
     expect(Item).toStrictEqual({
       Lat: 40,
