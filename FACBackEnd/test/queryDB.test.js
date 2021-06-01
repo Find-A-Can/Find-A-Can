@@ -1,5 +1,6 @@
-const { DocumentClient } = require('aws-sdk/clients/dynamodb')
+// const { DocumentClient } = require('aws-sdk/clients/dynamodb')
 const queryDB = require('../src/queryDB.js')
+const putItem = require('../src/putItem.js')
 const isTest = process.env.JEST_WORKER_ID
 // Configuration for DocumentClient
 const config = {
@@ -14,14 +15,14 @@ const config = {
 describe('testing DynamoDB get queries', () => {
   const projectionExpression = 'Lat, Lng, IsCompost, IsGarbage,IsRecycling'
   const condition = 'Lat between :south and :north and Lng between :west and :east'
-  const ddb = new DocumentClient(config)
+  // const ddb = new DocumentClient(config)
   // Insert data into dummy table
 
   it('query result should be nothing', async () => {
     expect.hasAssertions()
-    await ddb.put({ TableName: 'Locations', Item: { Lat: 40, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
+    await putItem.putItem('40', '40', true, false, true, config)
+    await putItem.putItem('46', '40', true, false, true, config)
 
-    await ddb.put({ TableName: 'Locations', Item: { Lat: 46, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
     const testInvalid = [-1, -1, -1, -1]
     const expression = {
       ':north': parseFloat(testInvalid[0]),
@@ -35,9 +36,8 @@ describe('testing DynamoDB get queries', () => {
   })
   it('query result of valid lat range and lng range', async () => {
     expect.hasAssertions()
-    await ddb.put({ TableName: 'Locations', Item: { Lat: 40, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
-
-    await ddb.put({ TableName: 'Locations', Item: { Lat: 46, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
+    await putItem.putItem('40', '40', true, false, true, config)
+    await putItem.putItem('46', '40', true, false, true, config)
     const test = [45, 39, 41, 30]
     const expression = {
       ':north': parseFloat(test[0]),
@@ -54,9 +54,8 @@ describe('testing DynamoDB get queries', () => {
     expect.hasAssertions()
     const isGarbCondition = 'Lat between :south and :north and Lng between :west and :east and IsGarbage = :isgarb'
     const test = [45, 39, 41, 30]
-    await ddb.put({ TableName: 'Locations', Item: { Lat: 40, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
-
-    await ddb.put({ TableName: 'Locations', Item: { Lat: 46, Lng: 40, IsGarbage: true, IsCompost: false, IsRecycling: true } })
+    await putItem.putItem('40', '40', true, false, true, config)
+    await putItem.putItem('46', '40', true, false, true, config)
     const expression = {
       ':north': parseFloat(test[0]),
       ':south': parseFloat(test[1]),
