@@ -1,4 +1,3 @@
-// const { DocumentClient } = require('aws-sdk/clients/dynamodb')
 const queryDB = require('../src/queryDB.js')
 const putItem = require('../src/putItem.js')
 const isTest = process.env.JEST_WORKER_ID
@@ -15,9 +14,6 @@ const config = {
 describe('testing DynamoDB get queries', () => {
   const projectionExpression = 'Lat, Lng, IsCompost, IsGarbage,IsRecycling'
   const condition = 'Lat between :south and :north and Lng between :west and :east'
-  // const ddb = new DocumentClient(config)
-  // Insert data into dummy table
-
   it('query result should be nothing', async () => {
     expect.hasAssertions()
     await putItem.putItem('40', '40', true, false, true, config)
