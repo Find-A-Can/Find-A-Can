@@ -126,6 +126,11 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def MYAPP_UPLOAD_STORE_PASSWORD = properties.getProperty('MYAPP_UPLOAD_STORE_PASSWORD')
+def MYAPP_UPLOAD_KEY_PASSWORD = properties.getProperty('MYAPP_UPLOAD_KEY_PASSWORD')
+
 android {
     ndkVersion rootProject.ext.ndkVersion
 
@@ -140,8 +145,8 @@ android {
         applicationId "com.facreact"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.2"
     }
     splits {
         abi {
@@ -174,7 +179,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

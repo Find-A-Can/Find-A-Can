@@ -35,9 +35,9 @@ export class FACMap extends Component {
   state = {
     region: {
       latitude: 47.656882, 
-      latitudeDelta: 0.1, 
+      latitudeDelta: 0.02, 
       longitude: -122.308035, 
-      longitudeDelta: 0.1
+      longitudeDelta: 0.02
     },
     cachedData: getDefaultData(),
     showGarbage: true,
@@ -64,8 +64,8 @@ export class FACMap extends Component {
    */
   async onRegionChange(region) {
     this.setState({region: region});
-    // don't get or render any markers if user is zoomed out beyond 0.75 delta
-    if (region.latitudeDelta > 0.75 && region.longitudeDelta > 0.75) {
+    // don't get or render any markers if user is zoomed out beyond 0.075 delta
+    if (region.latitudeDelta > 0.02 && region.longitudeDelta > 0.02) {
       this.setState({cachedData: getDefaultData()});
       isGettingCans = false;
       Alert.alert("Zoomed too far out", "Zoom back in to see markers");
